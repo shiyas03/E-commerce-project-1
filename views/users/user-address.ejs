@@ -1,0 +1,132 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+
+    <div class="container-fluid">
+        <div class="row py-5 justify-content-center">
+            <div class="col col-lg-10">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center fs-4">Your Address</p>
+                        <hr>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <% if(addressData.length > 0){ addressData.forEach(addressData=>{ %>
+                                    <div class="card bg-light mb-3">
+                                        <div class="card-body">
+                                            <p class="fw-bold">
+                                                <%= addressData.firstName %>&nbsp<%= addressData.secondName %>
+                                            </p>
+                                            <p>
+                                                <%= addressData.email %><br>
+                                                    <%= addressData.number %> <br>
+                                                        <%= addressData.address %> <br>
+                                                            <%= addressData.state %> <br>
+                                                                <%= addressData.landMark %> <br>
+                                                                    <%= addressData.pincode %>  
+                                            </p>
+                                            <a href="/edit-address?addressId=<%= addressData._id %>"
+                                                class="btn btn-secondary">Edit</a>
+                                            <a href="/delete-address?addressId=<%= addressData._id %>"
+                                                class="btn btn-danger">Delete</a>
+                                        </div>
+                                        </label>
+                                    </div>
+                                    <%}) }else{ %>
+                                        <div class="card bg-light mb-3">
+                                            <div class="card-body">
+                                                <p class="fs-5 text-dark text-center"><button class="btn " type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                                                    aria-expanded="false" aria-controls="collapseExample">
+                                                    Add Address 
+                                                </button></p>
+                                            </div>
+                                            </label>
+                                        </div>
+                                        <% } %>
+                                            <p>
+                                                <button class="btn btn-outline-dark" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                                                    aria-expanded="false" aria-controls="collapseExample">
+                                                    Add New Address Here
+                                                </button>
+                                            </p>
+                                            <div class="collapse" id="collapseExample">
+                                                <div class="card card-body">
+                                                    <p class="text-center text-danger"><%= typeof error !=='undefined' ? error : '' %></p>
+                                                    <form class="row g-3" method="post">
+                                                        <div class="col-md-6">
+                                                            <label for="validationCustom01" class="form-label">First
+                                                                name </label>
+                                                            <input type="text" class="form-control"
+                                                                id="validationCustom01" name="firstName"  >
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="validationCustom02" class="form-label">Last
+                                                                name</label>
+                                                            <input type="text" class="form-control"
+                                                                id="validationCustom02" name="secondName" >
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label for="validationCustom02"
+                                                                class="form-label">Email</label>
+                                                            <input type="text" class="form-control"
+                                                                id="validationCustom02" name="email" >
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label for="validationCustom02" class="form-label">mobile
+                                                                Number</label>
+                                                            <input type="text" class="form-control"
+                                                                id="validationCustom02" name="mobileNumber" >
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="validationCustom04"
+                                                                class="form-label">Country</label>
+                                                            <select class="form-select" id="validationCustom04"
+                                                                name="country" required>
+                                                                <option selected disabled>Choose...</option>
+                                                                <option>India</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="validationCustom04"
+                                                                class="form-label">State</label>
+                                                            <select class="form-select" id="validationCustom04"
+                                                                name="state" required>
+                                                                <option selected disabled value="">Choose...
+                                                                </option>
+                                                                <option>Kerala</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlTextarea1"
+                                                                class="form-label">Address</label>
+                                                            <textarea class="form-control"
+                                                                id="exampleFormControlTextarea1" rows="2"
+                                                                name="address"></textarea>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label for="validationCustom05" class="form-label">Land
+                                                                Mark</label>
+                                                            <input type="text" class="form-control"
+                                                                id="validationCustom05" name="landMark" >
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="validationCustom05"
+                                                                class="form-label">Pincode</label>
+                                                            <input type="text" class="form-control"
+                                                                id="validationCustom05" name="pincode" >
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <button class="btn btn-secondary"
+                                                                type="submit">Submit</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('../layouts/userFooter.ejs') %>

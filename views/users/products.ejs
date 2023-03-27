@@ -1,0 +1,188 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+
+    <!-- Main Section-->
+    <section class="mt-0 ">
+        <!-- Page Content Goes Here -->
+
+
+        <div class="container" data-aos="fade-in">
+            <!-- Category Toolbar-->
+            <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row px-5">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                        </ol>
+                    </nav>
+                    <h1 class="fw-bold fs-3 mb-2">New Releases</h1>
+                    <!-- <p class="m-0 text-muted small">Showing 1 - 9 of 121</p> -->
+                </div>
+                <!--Here you have to put sort filter links-->
+
+                <div class="d-flex justify-content-end align-items-center mt-4 mt-lg-0 flex-column flex-md-row">
+
+                    <!-- Filter Trigger-->
+                    <button
+                        class="btn bg-light p-3 me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto "
+                        type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters"
+                        aria-controls="offcanvasFilters">
+                        <i class="ri-equalizer-line me-2"></i> Filters
+                    </button>
+                    <!-- / Filter Trigger-->
+
+                    <!-- Sort Options-->
+                    <select class="form-select form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7" id="sort-product">
+                        <option value="">Sort By</option>
+                        <option value="1">Hi Low</option>
+                        <option value="-1">Low Hi</option>
+                    </select>
+                    <!-- / Sort Options-->
+                </div>
+            </div> <!-- /Category Toolbar-->
+
+            <!-- Products-->
+            <div class="row m-auto">
+                <% productData.forEach((data)=>{ %>
+
+                    <div class="col-12 col-sm-6 col-lg-4 mt-3">
+                        <!-- Card Product-->
+                        <div class="card position-relative overflow-hidden transparent">
+                            <div class="card-img position-relative">
+                                <div class="card-badges">
+                                    <button class="border-0 btn" onclick="wishlist('<%= data._id %>')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path
+                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <picture class="position-relative overflow-hidden bg-light">
+                                    <img class="img-fluid position-relative z-index-10" title=""
+                                        src="/images/<%= data.images[0] %>">
+                                </picture>
+                                <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2 ">
+                                    <a href="/view-product/?id=<%= data._id %>" class="btn btn-quick-add bg-light">View
+                                        Product</a>
+                                </div>
+                            </div>
+                            <div class="card-body m-3 " style="height: 150px; overflow: hidden;">
+                                <p class="text-dark">
+                                    <%= data.productName %>
+                                </p>
+                                <p class="mt-2 mb-0 medium">
+                                    <%= data.brand.name %>
+                                </p>
+                                <small class="text-muted d-block"></small>
+                                <p class="mt-2 mb-0 small"><s class="text-muted">₹<%= data.price %></s> <span
+                                        class="text-danger">₹<%= data.salePrice %></span></p>
+                            </div>
+                        </div>
+                        <!--/ Card Product-->
+                    </div>
+                    <% }) %>
+            </div>
+            <!-- / Products-->
+        </div>
+        <div class="row justify-content-center mt-5">
+            <div class="col-auto">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <% for(let i=1; i<=number;i++){ if(i==value){ %>
+                            <li class="page-item active border-dark ms-1"><a class="page-link text-white"
+                                    href="/products/?value=<%= i %>">
+                                    <%= i %>
+                                </a></li>
+                            <%} else { %>
+                                <li class="page-item ms-1"><a class="page-link text-dark "
+                                        href="/products/?value=<%= i %>">
+                                        <%= i %>
+                                    </a></li>
+                                <% }} %>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row mb-5 ">
+            <div class="col-lg-2 m-auto mt-5">
+
+            </div>
+        </div>
+        <!-- /Page Content -->
+    </section>
+    <!-- / Main Section-->
+
+    <!-- Footer -->
+    <footer class="border-top p-3">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center flex-column flex-lg-row">
+                <div>
+                    <ul class="list-unstyled">
+                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
+                                href="#"><i class="ri-instagram-fill"></i></a></li>
+                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
+                                href="#"><i class="ri-facebook-fill"></i></a></li>
+                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
+                                href="#"><i class="ri-twitter-fill"></i></a></li>
+                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
+                                href="#"><i class="ri-snapchat-fill"></i></a></li>
+                    </ul>
+                </div>
+                <div class="d-flex align-items-center justify-content-end flex-column flex-lg-row">
+                </div>
+            </div>
+        </div>
+    </footer> <!-- / Footer-->
+
+    <!-- Filters Offcanvas-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFilters" aria-labelledby="offcanvasFiltersLabel">
+        <div class="offcanvas-header pb-0 d-flex align-items-center border-bottom">
+            <h5 class="offcanvas-title p-3" id="offcanvasFiltersLabel">Category Filters</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <div class="d-flex flex-column justify-content-between w-100">
+                <form id="filter-form" action="">
+                    <!-- Filters-->
+                    <% if(category){ category.forEach(data=>{ %>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="<%= data._id %>"
+                                id="<%= data._id %>">
+                            <label class="form-check-label" for="<%= data._id %>">
+                                <%= data.name %>
+                            </label>
+                        </div>
+                        <% })} %>
+
+                            <!-- Filter Button-->
+                            <div class="pt-3">
+                                <button type="submit"
+                                    class="btn btn-dark mt-2 d-block hover-lift-sm hover-boxshadow">Done</button>
+                            </div>
+                </form>
+
+                <!-- /Filter Button-->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const selectElement = document.getElementById("sort-product");
+        selectElement.addEventListener("change", function (event) {
+            const selectedOptionValue = event.target.value;
+            location.href = '/products?sort=' + selectedOptionValue
+        });
+
+        const myForm = document.getElementById("filter-form");
+        myForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // prevent the form from submitting
+            const checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
+            const selectedValues = Array.from(checkboxes).map(checkbox => checkbox.value);
+            location.href = '/products?filter='+ selectedValues;
+        });
+
+    </script>
+
+    <%- include('../layouts/userFooter.ejs') %>

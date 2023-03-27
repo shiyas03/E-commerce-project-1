@@ -1,0 +1,70 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+    <div class="container">
+        <div class="row py-5 justify-content-center">
+            <div class="col col-12 table-responsive p-3">
+                <% if(!ordersData.length ||  ordersData ==''){ %>
+                        <h5>Order is Empty, Continue Shopping</h5>
+                    <% }else{ %>
+                        <table class="table border table-bordered table-responsive">
+                            <tbody class="">
+                                <tr>
+                                    <th class="text-center">Image</th>
+                                    <th class="text-center">product Details</th>
+                                    <th class="text-center">Payment Method</th>
+                                    <th class="text-center">Payment Status</th>
+                                    <th class="text-center">Status  </th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                <% ordersData.forEach((data,i)=>{ %>
+                                    <tr>
+                                        <td class="col-2 text-center">
+                                            <img src="/images/<%= data.productId.images[0] %>" width="80px" alt="" class="">
+                                        </td>
+                                        <td class="col-5">
+                                            <small class="">
+                                                <%= data.productId.productName %> <br>
+                                                    Quantity : <%= data.orderedQuantity %> <br>
+                                                    Total Price : <%= data.totalSalePrice %> <br>
+                                                    <p class="text-dark fw-bold ">Ordered Date: <%= dates[i].originalDate %> <br> Delivery Expected by: <%= dates[i].newDate %></p>
+                                            </small>   
+                                        </td>
+                                        <td>
+                                            <%= data.paymentMethod %>
+                                        </td>
+                                        <td>
+                                            <% if(data.paymentStatus == "Paid"){%>
+                                                <p class="text-success fs-5 fw-bold">
+                                            <%}else{%>
+                                                <p class="text-warning fs-5 fw-bold">
+                                           <% } %>
+                                           <%= data.paymentStatus %></p>   
+                                           
+                                        </td>
+                                        <td class="">
+                                            <% if( data.status == 'Cancelled' || data.status == 'Returning' || data.status == 'Returned') {  %>
+                                                <p class="text-center text-danger fs-5 fw-bold">
+                                                <% }else{%>
+                                                   <p class="text-center text-success fs-5 fw-bold">
+                                                <%}%>
+                                                <%= data.status %>
+                                            </p>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="/view-product?id=<%= data.productId._id %>" class="btn btn-primary">view</a> 
+                                            <% if( data.status == 'Cancelled'  ) {  %>
+                                                <a href="" class="btn btn-danger disabled">Cancel</a>
+                                                <% }else if(data.status == 'Delivered'){%>
+                                                    <a href="/return-order?id=<%= data._id %>" class="btn btn-warning">Return</a>
+                                                <%}else{ %>
+                                                    <a href="/cancel-order?id=<%= data._id %>" class="btn btn-danger">Cancel</a>
+                                                <% } %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody> 
+                        </table>
+                    <% } %>            
+            </div>
+        </div>
+        <%- include('../layouts/userFooter.ejs') %>

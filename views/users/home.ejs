@@ -1,0 +1,64 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+  <!-- Main Section -->
+  <section class="container-fluid mt-0 overflow-hidden p-5 pt-0">
+    <!-- Page Content Goes Here -->
+
+    <!-- / Top banner -->
+    <section class="vh-75 vh-lg-60 rounded overflow-hidden" data-aos="fade-in">
+      <!-- Swiper Info -->
+      <div class="swiper-container overflow-hidden rounded h-100 bg-light" data-swiper data-options='{
+          "spaceBetween": 0,
+          "slidesPerView": 1,
+          "effect": "fade",
+          "speed": 1000,
+          "loop": true,
+          "parallax": true,
+          "observer": true,
+          "observeParents": true,
+          "lazy": {
+            "loadPrevNext": true
+            },
+            "autoplay": {
+              "delay": 5000,
+              "disableOnInteraction": false
+          },
+          "pagination": {
+            "el": ".swiper-pagination",
+            "clickable": true
+            } 
+          }'>
+          <div class="swiper-wrapper">
+            <% bannerData.forEach(data => { %>
+              <!-- Slide -->
+              <div class="swiper-slide position-relative h-100">
+                <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
+                  <div class="w-100 h-100 bg-img-cover bg-pos-center" data-swiper-parallax="-100" style="background-image: url('/images/<%= data.image %>'); will-change: transform;"></div>
+                </div>
+                <div class="container position-relative z-index-10 h-100 d-flex flex-column justify-content-center">
+                  <p class="text-white mb-0" data-swiper-parallax="-100"><%= data.subHeading %></p>
+                  <h2 class="display-3 fw-bold text-uppercase text-white" data-swiper-parallax="100">
+                    <span class="text-outline"><%= data.heading %></span>
+                  </h2>
+                  <div data-swiper-parallax-y="-25">
+                    <a href="/<%= data.buttonLink %>" class="text-uppercase text-decoration-none text-white" role="button"><%= data.buttonText %></a>
+                  </div>
+                </div>
+              </div>
+              <!-- /Slide -->
+            <% }) %>
+          </div>
+          
+
+        <div class="swiper-pagination swiper-pagination-bullet-light"></div>
+      </div>
+      <!-- / Swiper Info-->
+    </section>
+    <!--/ Top Banner-->
+
+
+
+  </section>
+  <!-- / Main Section-->
+
+  <%- include('../layouts/userFooter.ejs') %>

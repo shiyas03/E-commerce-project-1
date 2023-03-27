@@ -1,0 +1,84 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <!--Products card-->
+    <div class="container-fluid  bg-light">
+        <div class="row justify-content-end ">
+            <div class="col-3 d-flex">
+                <a href="/admin/add-banner" class="btn btn-primary me-2">Add Banner</a>
+
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="g-3 col-md-12 col-lg-10 col-12">
+                <table class="table table-bordered border" id="table-setting">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Heading</th>
+                            <th scope="col">Button text</th>
+                            <th scope="col">Button Link</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% bannerData.forEach((data,index)=>{ %>
+                            <tr>
+                                <td>
+                                    <%= index+1 %>
+                                </td>
+                                <td><img src="/images/<%= data.image %>" alt="" width="200px"></td>
+                                <td>
+                                    <%= data.heading %>
+                                </td>
+                                <td>
+                                    <%= data.buttonText %>
+                                </td>
+                                <td>
+                                    /<%= data.buttonLink %>
+                                </td>
+                                <td>
+                                    <% if(data.status=='true' ){ %>
+                                        <p class="text-success">Enable</p>
+                                        <%}else{ %>
+                                            <p class="text-success">Disabled</p>
+                                            <% } %>
+                                </td>
+                                <td>
+                                    <input type="text" value="<%= data._id %>" id="<%= data._id %>" hidden>
+                                    <a href="/admin/edit-banner?id=<%= data._id %>" class="btn btn-primary">Edit</a>
+                                    <a type="submit" class="btn btn-danger text-white"
+                                        onclick="confirmation('<%= data._id %>')">Delete</a>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmation(id) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure!',
+                text: 'confirm!',
+            }).then(data => {
+                $.ajax({
+                    method: "post",
+                    url: '/admin/delete-banner',
+                    data: {
+                        id: id
+                    },
+                    success: (response)=>{
+                        location.reload()
+                    }
+                })
+            })
+        }
+
+    </script>
+
+    <%- include('../layouts/adminFooter.ejs') %>

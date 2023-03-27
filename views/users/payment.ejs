@@ -1,0 +1,256 @@
+<%- include('../layouts/userHeader.ejs') %>
+  <!-- Main Section-->
+  <section class="mt-0  vh-lg-100">
+    <!-- Page Content Goes Here -->
+    <div class="container-fluid ms-3">
+      <div class="row g-0 vh-lg-100">
+        <div class="col-lg-7 ">
+          <div class="pe-lg-5">
+            <nav class="d-none d-md-block">
+              <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
+                <li class="me-4"><a class="nav-link-checkout " href="/cart">Your Cart</a></li>
+                <li class="me-4"><a class="nav-link-checkout " href="/product-checkout">Information</a></li>
+                <li><a class="nav-link-checkout nav-link-last active" href="/product-payment">Payment</a></li>
+              </ul>
+            </nav>
+            <p class="text-danger tw-bold fs-5 px-4">
+              <%= typeof info !=='undefined' ? info : '' %>
+            </p>
+            <form action="/place_order" method="post" id="payment-form">
+              <div class="mt-5">
+                <!-- Checkout Panel Information-->
+                <% if( addressData ) { %>
+                  <div class="">
+                    <div class=" card border border-rouned-3">
+                      <div class="card-header fs-4 text-dark">Your Address</div>
+                      <div class="card-body">
+                        <p class="card-text"><b>
+                            <%= addressData.firstName %>
+                          </b><br>
+                          <%= addressData.number %> <br>
+                            <%= addressData.email %> <br>
+                              <%= addressData.address %> <br>
+                                <%= addressData.landMark %> <br>
+                                  <%= addressData.pincode %>
+                        </p>
+                        <input type="text" value="<%= addressData._id %>" name="addressId" id="payment-address" hidden>
+                      </div>
+                    </div>
+                  </div>
+                  <% }%>
+              </div>
+              <div class="mt-5">
+
+                <!-- Checkout Panel Information-->
+                <h3 class="fs-5 fw-bolder mb-4 border-bottom pb-4">Payment Information</h3>
+
+                <div class="row">
+
+                  <!-- Payment Option-->
+                  <div class="col-12">
+                    <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                      <input class="form-check-input" type="radio" name="paymentMethod" id="checkoutPayment"
+                        value="Cash on delivery">
+                      <label class="form-check-label" for="checkoutPayment">
+                        <span class="d-flex justify-content-between align-items-start">
+                          <span>
+                            <span class="mb-0 fw-bolder d-block">Cash On Delivery</span>
+                          </span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                      <input class="form-check-input" type="radio" name="paymentMethod" id="razerPayment"
+                        value="razorPay">
+                      <label class="form-check-label" for="razerPayment">
+                        <span class="d-flex justify-content-between align-items-start">
+                          <span>
+                            <span class="mb-0 fw-bolder d-block">Razor Pay</span>
+                          </span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                      <input class="form-check-input" type="radio" name="paymentMethod" id="wallet" value="Wallet">
+                      <label class="form-check-label" for="wallet">
+                        <span class="d-flex justify-content-between align-items-start">
+                          <span>
+                            <span class="mb-0 fw-bolder d-block">Your Wallet</span>
+                            <small>Balance : <%= walletAmount %></small>
+                          </span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="text" name="couponCode" id="coupon-code"
+                value="<%= typeof couponCode !== 'undefined' ? couponCode : '' %>" hidden>
+              <div class="pt-5 d-grid gap-2">
+                <button class="btn btn-dark w-100 w-md-auto">Place Your Order</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
+          <div class="p-4">
+            <div class="pb-3">
+              <!-- Cart Item-->
+              <div class="pb-4 border-bottom">
+                <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
+                  <div>
+                    <p class="m-0 fw-bold fs-6">Delivery Charges</p>
+                    <hr>
+                    <p class="m-0 fw-bold fs-5 text">Grand Total</p>
+                    <!-- <span class="text-muted small">Inc $45.89 sales tax</span> -->
+                  </div>
+                  <div class="me-2">
+                    <p class="m-0 fw-bold fs-6 text-end">Free Delivery</p>
+                    <hr>
+                    <p class="m-0 fw-bold fs-5 text-end text-dark">
+                      <%= typeof totalSalePrice !=='undefined' ? totalSalePrice : '' %>
+                    </p>
+                  </div>
+                </div>
+                <!-- / Cart Item-->
+              </div>
+            </div>
+            <div class="py-4">
+
+              <!-- <input type="text" name="total" value="" hidden>
+              <div class="input-group mb-0">
+                <input type="text" class="form-control" placeholder="Enter coupon code" name="couponCode">
+                <button class="btn btn-secondary btn-sm px-4" id="" type="submit">Apply</button>
+              </div> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Page Content -->
+  </section>
+  <!-- / Main Section-->
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    // Razor Payment
+    let paymentMethod
+    let address
+    let code
+    $("#payment-form").submit((e) => {
+      paymentMethod = $('input[name=paymentMethod]:checked').val();
+      address = document.getElementById("payment-address").value
+      code = document.getElementById('coupon-code').value
+      e.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: '/place_order',
+        data: {
+          addressId: address,
+          paymentMethod: paymentMethod,
+          code: code
+        },
+        success: (response) => {
+          if (response.success === true) {
+            Swal.fire({
+              position: 'middle',
+              icon: 'success',
+              title: 'Your Order Placed',
+              showConfirmButton: false,
+              timer: 3000
+            }).then(() => {
+              location.href = '/orders'
+            })
+          } else if (response.message) {
+            Swal.fire({
+              toast: true,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              icon: 'error',
+              title: response.message,
+            })
+          } else {
+            razorPayment(response.order)
+          }
+        },
+      })
+
+
+    })
+
+    function razorPayment(order) {
+      var options = {
+        "key": "rzp_test_S1Lou8Ci63VDvS", // Enter the Key ID generated from the Dashboard
+        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Traderow", //your business name
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+          verifyPayment(response, order)
+        },
+        "prefill": {
+          "name": "userData.name", //customer's name
+          "email": "userData.email",
+          "contact": "userData.mobile"
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#6a737b"
+        }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+    }
+    function verifyPayment(payment, order) {
+      $.ajax({
+        type: "POST",
+        url: "/verify-payment",
+        data: {
+          order,
+          payment
+        },
+        success: function (response) {
+          if (response.success) {
+            Swal.fire({
+              position: 'middle',
+              icon: 'success',
+              title: 'Your Order Placed',
+              showConfirmButton: false,
+              timer: 3000
+            }).then(() => {
+              $.ajax({
+                type: "POST",
+                url: '/order-confirm',
+                data: {
+                  addressId: address,
+                  payment: paymentMethod,
+                  code: code
+                },
+                success: (response) => {
+                  location.href = '/orders'
+                }
+              })
+            })
+          } else {
+            Swal.fire(
+              'Failed!',
+              'Some error in payment!',
+              'error'
+            ).then(() => {
+              location.href = '/cart'
+            })
+          }
+        }
+      })
+    }
+  </script>
+
+  <%- include('../layouts/userFooter.ejs') %>

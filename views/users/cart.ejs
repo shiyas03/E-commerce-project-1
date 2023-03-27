@@ -1,0 +1,203 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+    <!-- Main Section-->
+    <section class="mt-0 overflow-lg-hidden">
+        <!-- Page Content Goes Here -->
+        <div class="container-fluid ms-3">
+            <div class="row g-0 vh-lg-100">
+                <div class="col-12 col-lg-7">
+                    <div class="pe-lg-5">
+                        <nav class="d-none d-md-block">
+                            <ul
+                                class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
+                                <li class="me-4"><a class="nav-link-checkout  active" href="/cart">Your Cart</a>
+                                </li>
+                                <li class="me-4"><a class="nav-link-checkout " href="/product-checkout">Information</a>
+                                </li>
+                                <li><a class="nav-link-checkout nav-link-last " href="/product-payment">Payment</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="m-5">
+                            <h3 class="fs-5 fw-bolder mb-0 pb-4">Your Cart</h3>
+                            <div class="table-responsive">
+                                <table class="table align-middle border">
+                                    <tbody class="">
+                                        <!-- Cart Item-->
+                                        <% if( productData.length> 0) { productData.forEach((data,index)=> { %>
+                                            <div class="row mx-0 py-4 g-0 ">
+                                                <div class="col-2 position-relative">
+                                                    <picture class="d-block border">
+                                                        <img class="img-fluid"
+                                                            src="/images/<%= data.productId.images[0] %>"
+                                                            alt="HTML Bootstrap Template by Pixel Rocket" width="">
+                                                    </picture>
+                                                </div>
+                                                <div class="col-9 offset-1">
+
+                                                    <div>
+                                                        <h5
+                                                            class="justify-content-between d-flex align-items-start mb-2">
+                                                            <%= data.productId.productName %>
+                                                        </h5>
+                                                        <h6
+                                                            class="justify-content-between d-flex align-items-start mb-2">
+                                                            <%= data.productId.brandName %>
+                                                        </h6>
+                                                        <span
+                                                            class="d-block text-muted fw-bolder text-uppercase fs-9 mb-2">Price:
+                                                            ₹<%= data.productId.price %></span>
+                                                        <p id="" class="fw-bolder text-dark me-5">Your Price: ₹
+                                                            <%= data.productId.salePrice %>
+                                                        </p>
+                                                        <div class="qty-control flexitem">
+                                                            <button class="minus"
+                                                                onclick="changeqnty('<%= cartData.userId %>','<%= data.productId._id %>','<%= data.productId.salePrice %>','<%= cartData._id %>',-1)"
+                                                                type="submit">-</button>
+                                                            <input id="<%= data.productId._id %>" type="text"
+                                                                value="<%= data.quantity %>" min="1"
+                                                                class="col-1 text-center" disabled>
+                                                            <button class="plus"
+                                                                onclick="changeqnty('<%= cartData.userId %>','<%= data.productId._id %>','<%= data.productId.salePrice %>','<%= cartData._id %>',1)"
+                                                                type="submit">+</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-3">
+                                                        <a href="/view-product?id=<%= data.productId._id %>"
+                                                            class="btn btn-primary"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor" class="bi bi-eye"
+                                                                viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                                                <path
+                                                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                                            </svg></a>
+                                                        <a href="/remove-product?id=<%= data.productId._id %>"
+                                                            class="btn btn-danger"
+                                                            onclick="deleteItem(event,'<%= data.productId._id+100 %>')"
+                                                            id="<%= data.productId._id+100 %>"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor" class="bi bi-trash3"
+                                                                viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                                            </svg></a>
+                                                    </div>
+
+                                                </div>
+                                                <!-- / Cart Item-->
+                                                <% })}else{%>
+                                                    <h3 class="text-center fs-5 py-3 text-dark">
+                                                        Cart is Empty,<a href="/products"> Continue Shopping</a></h3>
+                                                    <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5 bg-light pt-5 aside-checkout mt-4">
+                    <% if(typeof cartData !=='undefined' ){%>
+                        <div class="p-4">
+                            <div class="pb-4">
+                                <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
+                                    <div>
+                                        <p class="m-0 fw-bold fs-6">Delivery Charges</p>
+                                        <hr>
+                                        <p class="m-0 fw-bold fs-5 text">Grand Total</p>
+                                        <!-- <span class="text-muted small">Inc $45.89 sales tax</span> -->
+                                    </div>
+                                    <div class="me-2">
+
+                                        <p class="m-0 fw-bold fs-6 text-end">Free Delivery</p>
+                                        <hr>
+                                        <p class="m-0 fw-bold fs-5 text-end text-dark" id="<%= cartData._id %>">
+                                            <%= totalSalePrice %>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="py-4">
+                                <div class="accordion mt-3" id="accordionProduct">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                aria-expanded="true" aria-controls="collapseOne">
+                                                Coupons
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse"
+                                            aria-labelledby="headingOne" data-bs-parent="#accordionProduct">
+                                            <div class="accordion-body">
+                                                    <ul class="list-group">
+                                                        <% coupons.forEach(data=>{ %>
+                                                                <li class="list-group-item"><button class="btn btn-white" type="submit"  
+                                                                    onclick="couponApply('<%= totalSalePrice %>','<%= cartData._id %>','<%= data.code %>')">
+                                                                    <%= data.code %></button>
+                                                                </li>  
+                                                        <% }) %> 
+                                                      </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <form action="/product-checkout" method="post">
+                                <input type="text" class="form-control" placeholder="Enter coupon code"
+                                    id="passingCouponCode" name="couponCode" hidden>
+                                <button class="btn btn-dark w-100 text-center" type="submit">Proceed to
+                                    checkout</button>
+
+                            </form>
+
+                        </div>
+                        <% }else{ %>
+                            <h5 class="justify-content-between d-flex align-items-start mb-2">
+                            </h5>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Content -->
+    </section>
+    <!-- / Main Section-->
+
+
+    <script>
+        let count = 0;
+        function couponApply(val, id, coupon) {
+            document.getElementById("passingCouponCode").value = coupon
+            $.ajax({
+                type: "POST",
+                url: "/cart",
+                data: {
+                    value: val,
+                    code: coupon
+                },
+                success:  (response) => {
+                    if (response.success) {
+                        let total = document.getElementById(id).innerHTML
+                        count++;
+                        if (count == 1) {
+                            if (response.success.type === "Flat" && response.success.minOrder < total) {
+                                document.getElementById(id).innerHTML = Number(total) - Number(response.success.value);
+                            } else if (response.success.type === "Percentage" && response.success.minOrder < total) {
+                                document.getElementById(id).innerHTML = Number(total) - (Number(total) * Number(response.success.value)) / 100;
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
+
+
+    </script>
+
+    <%- include('../layouts/userFooter.ejs') %>

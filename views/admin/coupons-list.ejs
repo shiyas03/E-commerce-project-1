@@ -1,0 +1,78 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+
+
+    <!--Products card-->
+    <div class="container-fluid">
+
+        <div class="row justify-content-center bg-light">
+            <div class="row justify-content-end py-3">
+                <div class="col-3 d-flex">
+                    <a href="/admin/add-coupon" class="btn btn-primary me-2">Add Coupon</a>
+
+                </div>
+            </div>
+            <div class="g-3  col-md-12 col-lg-10 col-12">
+                <table class="table table-bordered border">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Coupon Code</th>
+                            <th scope="col">Discount</th>
+                            <th scope="col">Minimun Order</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Expiry Date</th>
+                            <th class="scope">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% couponData.forEach((data,index)=> { %>
+                            <tr>
+                                <td>
+                                    <%= index+1 %>
+                                </td>
+                                <td>
+                                    <%= data.code%>
+                                </td>
+                                <td>
+                                    <%= data.value %>
+                                        <%= data.type %>
+                                </td>
+                                <td>
+                                    <%= data.minOrder %>
+                                </td>
+                                <td>
+                                    <% if(data.status== "Active" ){ %>
+                                        <p class="text-success">
+                                            Active
+                                        </p>
+                                        <% }else{ %>
+                                            <p class="text-danger">
+                                                <%= data.status %>
+                                            </p>
+                                            <% } %>
+
+                                </td>
+                                <td>
+                                    <%= data.expiryDate %>
+                                </td>
+                                <td>
+                                    <a href="/admin/edit-coupon?id=<%= data._id %>" class="btn btn-primary">Edit</a>
+                                    <% if(data.status == "Active"){ %>
+                                        <a href="/admin/coupon-status?id=<%= data._id %>&status=false"
+                                            class="btn btn-danger" onclick="changeStatus(event,'<%= data._id %>')" id="<%= data._id %>">Disable</a>
+                                    <% }else{ %>
+                                        <a href="/admin/coupon-status?id=<%= data._id %>&status=Active"
+                                            class="btn btn-success" onclick="changeStatus(event,'<%= data._id %>')" id="<%= data._id %>">Enable</a>
+                                    <% } %>
+                                    
+                                </td>
+                            </tr>
+                            <% }) %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/adminFooter.ejs') %>

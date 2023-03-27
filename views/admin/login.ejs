@@ -1,0 +1,74 @@
+<%- include('../layouts/loginHeader.ejs') %>
+
+    <!-- Content -->
+
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner">
+                <!-- Register -->
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Logo -->
+                        <div class="app-brand justify-content-center">
+                            <div class="app-brand-link gap-2">
+                                <span class="app-brand-logo demo">
+                                    <!-- Logo-->
+                                    <div class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0 order-0">
+                                        <div class="d-flex align-items-center">
+                                            <svg class="f-w-7" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 77.53 72.26">
+                                                <path
+                                                    d="M10.43,54.2h0L0,36.13,10.43,18.06,20.86,0H41.72L10.43,54.2Zm67.1-7.83L73,54.2,68.49,62,45,48.47,31.29,72.26H20.86l-5.22-9L52.15,0H62.58l5.21,9L54.06,32.82,77.53,46.37Z"
+                                                    fill="currentColor" fill-rule="evenodd" />
+                                            </svg>
+                                            <h1 class="text-center fs-2 ms-2 fw-bold mt-2">Traderow</h1>
+                                        </div>
+                                    </div>
+                                    <!-- / Logo-->
+                                </span>
+                            </div>
+                        </div>
+                        <!-- /Logo -->
+                        <h4 class="mb-2">Welcome to Traderow! 👋</h4>
+                        <p class="mb-4">Please sign-in to your account</p>
+
+                        <form id="formAuthentication" class="mb-3" action="" method="POST">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="email" name="email"
+                                    placeholder="Enter your email" autofocus value="<%= typeof inputValue !== "undefined" ? inputValue : "" %>" />
+                                <p class="login-alert"><%= typeof emailError !== 'undefined' ? emailError:'' %>
+                                    <%= typeof fieldError !== 'undefined' ? fieldError:'' %>
+                                </p>
+                            </div>
+                            
+                            <div class="mb-3 form-password-toggle">
+                                <div class="d-flex justify-content-between">
+                                    <label class="form-label" for="password">Password</label>
+                                    <!-- <a href="auth-forget-password-basic.html">
+                                        <small>Forgot Password?</small>
+                                    </a> -->
+                                </div>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password" class="form-control" name="password"
+                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        aria-describedby="password" />
+                                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                </div>
+                                <p class="login-alert"><%= typeof passwordError !== 'undefined' ? passwordError:'' %></p>
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /Register -->
+            </div>
+        </div>
+    </div>
+
+    <!-- / Content -->
+
+
+    <%- include('../layouts/loginFooter.ejs') %>

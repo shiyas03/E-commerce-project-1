@@ -1,0 +1,72 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <div class="container mt-3">
+        <div class="row justify-content-center bg-light">
+            <div class="col-lg-10 m-5">
+                <p class="text-danger text-center">
+                </p>
+                <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data" onsubmit="validation()">
+                    <div class="col-md-6">
+                        <label for="heading" class="form-label">Heading</label>
+                        <input type="text" class="form-control" id="heading" name="heading" placeholder="" value="<%= bannerData.heading %>">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="subHeading" class="form-label">Sub Heading</label>
+                        <input type="text" class="form-control" id="subHeading" name="subHeading" placeholder="" value="<%= bannerData.subHeading %>">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="buttonText" class="form-label">Button Text</label>
+                        <input type="text" class="form-control" id="text" name="buttonText" placeholder="" value="<%= bannerData.buttonText %>">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="buttonText" class="form-label">Button Link</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">/</span>
+                            <input type="text" class="form-control" aria-label="buttonLink"
+                                aria-describedby="basic-addon1" name="buttonLink" value="<%= bannerData.buttonLink%>">
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <% if( bannerData.status == "true" ) {%>
+                        <div class="form-check m-2">
+                            <label class="form-check-label" for="enable">
+                                Enable
+                            </label>
+                            <input class="form-check-input" type="radio" name="status" id="enable" value="true" checked>
+                        </div>
+                        <div class="form-check m-2">
+                            <label class="form-check-label" for="disable">
+                                Disable
+                            </label>
+                            <input class="form-check-input" type="radio" name="status" id="disable" value="false">
+                        </div>
+                        <% }else{ %>
+                            <label class="form-check-label" for="enable">
+                                Enable
+                            </label>
+                            <input class="form-check-input" type="radio" name="status" id="enable" value="true">
+                        </div>
+                        <div class="form-check m-2">
+                            <label class="form-check-label" for="disable">
+                                Disable
+                            </label>
+                            <input class="form-check-input" type="radio" name="status" id="disable" value="false" checked>
+                        </div>
+                        <% }%>
+                    </div>
+                    <div>
+                        <img src="/images/<%= bannerData.image %>" alt="">
+                    </div>
+                    <input type="text" name="id" value="<%= bannerData._id %>" hidden>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image Upload</label>
+                        <input class="form-control" type="file" id="image" name="image">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/adminFooter.ejs') %>

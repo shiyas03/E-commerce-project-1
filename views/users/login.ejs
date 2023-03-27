@@ -1,0 +1,56 @@
+<%- include('../layouts/loginHeader.ejs') %>
+
+  <!-- Main Section-->
+  <section class="mt-0 overflow-hidden  vh-100 d-flex justify-content-center align-items-center p-4">
+    <!-- Page Content Goes Here -->
+
+    <!-- Login Form-->
+    <div class="col col-md-8 col-lg-5 col-xxl-5 col-sm-8" style="box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;">
+      <!-- Logo-->
+      <a class="navbar-brand fw-bold fs-3 flex-shrink-0 order-0 align-self-center justify-content-center d-flex mx-0 px-0"
+        href="./index.html">
+        <div class="d-flex align-items-center">
+          <svg class="f-w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77.53 72.26">
+            <path
+              d="M10.43,54.2h0L0,36.13,10.43,18.06,20.86,0H41.72L10.43,54.2Zm67.1-7.83L73,54.2,68.49,62,45,48.47,31.29,72.26H20.86l-5.22-9L52.15,0H62.58l5.21,9L54.06,32.82,77.53,46.37Z"
+              fill="currentColor" fill-rule="evenodd" />
+          </svg>
+          <h1 class="text-center fs-2 ms-2 fw-bold text-dark">Traderow</h1>
+        </div>
+      </a>
+      <!-- / Logo-->
+      <div class="shadow-xl p-4 p-lg-5 bg-white">
+        <h1 class="text-center fw-bold mb-5 fs-2">Login</h1>
+        <form method="post" id="login-form">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email or User name</label>
+            <input type="email" class="form-control" id="login-email" placeholder="Email or User name" name="email"
+            value="<%=typeof inputValue !== 'undefined' ? inputValue.email: '' %>">
+            <p class="login-alert"><%=typeof emailError !== 'undefined' ? emailError : '' %></p>
+            
+          </div>
+          <div class="form-group">
+            <label for="login-password" class="form-label d-flex justify-content-between align-items-center">
+              Password
+              <!-- <a href="forget-password" class="text-muted small">Forgot your password?</a> -->
+            </label>
+            <input type="password" class="form-control" id="login-password" placeholder="Enter your password" name="password" >
+            <p class="login-alert"><%=typeof passwordError !== 'undefined' ? passwordError : '' %></p>
+          </div>
+          <button type="submit" class="btn btn-dark d-block w-100 my-4" onclick="loginValidation(event)">Login</button>
+        </form>
+        <p class="d-block text-center text-muted my-4"><a class="text-muted" href="login-with-otp">Login With OTP</a></p>
+      <p class="d-block text-center text-muted my-4">New customer? <a class="text-muted" href="register">Sign up for an account</a></p>
+    </div>
+
+    </div>
+    <!-- / Login Form-->
+
+    <!-- /Page Content -->
+  </section>
+  <!-- / Main Section-->
+
+  <%- include('../layouts/loginFooter.ejs') %>
+
+
+  

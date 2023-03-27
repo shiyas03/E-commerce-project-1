@@ -1,0 +1,33 @@
+<%- include('../layouts/loginHeader.ejs') %>
+
+
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-4">
+                <div class="card"
+                    style="box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;">
+                    <div class="card-body m-4">
+                        <h4 class="card-title">Verify your email</h4>
+                        <p class="card-text fw-light">Please enter the 6-digit Verification code that was sent to your
+                            email: <span class="fw-bold"><%= typeof email !== 'undefined' ? email : '' %></span>
+                        </p>
+                        <p>The code is valid for 30 minutes</p>
+                        <form action="" method="post">
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <input type="text" class="form-control me-2" placeholder="">
+                                <input type="text" class="form-control me-2" placeholder="">
+                                <input type="text" class="form-control me-2" placeholder="">
+                                <input type="text" class="form-control me-2" placeholder="">
+                                <input type="text" class="form-control me-2" placeholder="">
+                                <input type="text" class="form-control me-2" placeholder="">
+                            </div>
+                            <a href="#" class="btn btn-primary d-grid gap-2 mt-3">Verify</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../layouts/loginFooter.ejs') %>

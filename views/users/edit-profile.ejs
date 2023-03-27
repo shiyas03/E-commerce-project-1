@@ -1,0 +1,39 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+    
+    <div class="container-fluid">
+        <div class="row py-3 justify-content-center">
+            <div class="col col-lg-8">
+                <div class="card border">
+                    <div class="card-body">
+                        <p class="text-center fs-4 fw-bold">Your Details</p>
+                        <hr>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 m-3">
+                                <p class="text-center text-danger"><%= typeof error !== 'undefined' ? error : '' %></p>
+                                <form method="post">
+                                    <% if(typeof userData !== 'undefined'){ %>
+                                        <div class="mb-3">
+                                            <label for="exampleInputusername" class="form-label">User Name</label>
+                                            <input type="text" class="form-control" id="exampleInputname" aria-describedby="emailHelp" name="userName" value="<%= userData.userName %>">                                    
+                                          </div>
+                                        <div class="mb-3">
+                                          <label for="exampleInputEmail1" class="form-label">Email</label>
+                                          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" value="<%= userData.email %>">                                    
+                                        </div>
+                                        <div class="mb-3">
+                                          <label for="exampleInputmobile" class="form-label">mobile Number</label>
+                                          <input type="text" class="form-control" id="exampleInputmobile" name="mobileNumber" value="<%= userData.mobileNumber %>">
+                                        </div>
+                                        <input type="text" class="form-control" name="userId" value="<%= userData._id %>" hidden>
+                                    <% } %> 
+                                    <button type="submit" class="btn btn-secondary">Update</button>
+                                  </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/userFooter.ejs') %>

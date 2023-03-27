@@ -1,0 +1,49 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <div class="container mt-3">
+        <div class="row justify-content-center bg-light">
+            <div class="col-lg-10 m-5">
+                <p class="text-danger text-center"><%=typeof fieldError !== 'undefined' ? fieldError : '' %></p>
+                <% if(categoryData){ %>
+                    <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
+                        <div class="col-md-6">
+                            <label for="categoryName" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="categoryName" name="categoryName"
+                                placeholder="category name" value="<%= categoryData.name %>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="for" class="form-label">For</label>
+                            <select class="form-select" id="for" name="gender">
+                                <option selected disabled value=""><%= categoryData.gender %></option>
+                                <option>Men</option>
+                                <option>Women</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="description" name="description"
+                                placeholder="more about category..." value="<%= typeof categoryData.description !=='undefined' ? categoryData.description : '' %>" />
+                        </div>
+                        <input type="text" value="<%= categoryData._id %>" hidden name="id">
+                        <div>
+                            <% if (categoryData.image) { %>
+                                <img src="/images/<%= categoryData.image %>" width="100px" alt="">
+                                <a href="/admin/delete-categoryImage/?id=<%= categoryData._id %>" class="btn btn-primary" type="submit">Delete</a>
+                            <% }else{ %>
+                                <img src="/images/<%= categoryData.image %>" width="100px" alt="no image found">
+                            <% } %>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image Upload</label>
+                            <input class="form-control" type="file" id="image" name="image">
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                    <% } %>
+
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/adminFooter.ejs') %>

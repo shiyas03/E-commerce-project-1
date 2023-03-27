@@ -1,0 +1,73 @@
+<%- include('../layouts/adminHeader.ejs') %>
+    
+
+
+    <!--Products card-->
+    <div class="container-fluid">
+       
+        <div class="row justify-content-center bg-light">
+            <div class="row justify-content-end py-3">
+                <div class="col-3 d-flex">
+                    <a href="/admin/add-category" class="btn btn-primary me-2">Add Category</a>
+                    
+                </div>
+            </div>
+            <div class="g-3 col-md-12 col-lg-10 col-12">
+                <table class="table table-bordered border" id="table-setting">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Category Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <% if(categoryData){ categoryData.forEach((data,index)=> { %>
+                        <tbody>
+                            <tr>
+                                <td><%= index+1 %></td>
+                                <td><img src="/images/<%= data.image %>" width="50px" alt=""></td>
+                                <td><%= data.name %></td>
+                                <td><%= data.description %></td>
+                                <% if(data.status == "Active") { %>
+                                    <td>
+                                        <p class="text-success"><%= data.status %></p>
+                                    </td>
+                                    <td> 
+                                        <div class="row">
+                                            <div class="col col-sm-6 col-lg-3">
+                                                <a href="/admin/edit-category/?id=<%= data._id %>" class="btn btn-primary">Edit</a>
+                                            </div>
+                                            <div class="col col-sm-6 col-lg-3">
+                                                <a href="/admin/status-category?id=<%= data._id %>&status=Disable" class="btn btn-danger btn-sm" 
+                                                    onclick="changeStatus(event,'<%= data._id %>')" id="<%= data._id %>">Disable</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                <% }else{ %>
+                                    <td>
+                                        <p class="text-danger"><%= data.status %></p>
+                                    </td>
+                                    <td> 
+                                        <div class="row">
+                                            <div class="col col-sm-6 col-lg-3">
+                                                <a href="/admin/edit-category/?id=<%= data._id %>" class="btn btn-primary">Edit</a>
+                                            </div>
+                                            <div class="col col-sm-6 col-lg-3">
+                                                <a href="/admin/status-category?id=<%= data._id %>&status=Active" class="btn btn-success btn-sm" 
+                                                    onclick="changeStatus(event,'<%= data._id %>')" id="<%= data._id %>">Enable</a>
+                                                
+                                            </div>
+                                        </div>
+                                    </td>
+                                <% } %>
+                            </tr>
+                        </tbody>
+                        <% }) } %>
+                </table>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/adminFooter.ejs') %>

@@ -1,0 +1,96 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+
+    <div class="container mt-3">
+        <div class="row justify-content-center bg-light">
+            <div class="col-lg-8 m-5">
+                <p class="text-danger text-center">
+                    <%=typeof error !=='undefined' ? error : '' %>
+                </p>
+                <form class="row g-3 needs-validation" method="post">
+                    <div class="col-md-6">
+                        <label for="couponCode" class="form-label">Coupon Code</label>
+                        <input type="text" class="form-control" id="couponCode" name="code"
+                            value="<%= existingData.code %>">
+                        <p class="text-danger">
+                            <%= typeof codeError !=='undefined' ? codeError : '' %>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="for" class="form-label">Type</label>
+                        <select class="form-select" id="type-coupon" name="type">
+                            <% if(!existingData.type) { %>
+                                <option selected disabled value="">Choose...</option>
+                                <% }else{%>
+                                    <option selected disabled value="<%= existingData.type %>">
+                                        <%= existingData.type %>
+                                    </option>
+                                    <% } %>
+                                        <option>Flat</option>
+                                        <option>Percentage</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="value" class="form-label">Value</label>
+                        <input type="number" class="form-control" id="value" name="value"
+                            value="<%= existingData.value %>">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="minOrder" class="form-label">Minimun Order</label>
+                        <input type="number" class="form-control" id="minOrder" name="minOrder"
+                            value="<%= existingData.minOrder %>">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="maxDiscount" class="form-label">Maximum Discount</label>
+                        <input type="number" class="form-control" id="maxDiscount" name="maxDiscount"
+                            value="<%= existingData.maxDiscount %>" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status">
+                            <option selected disabled value="">Choose...</option>
+                            <% if(!existingData.status) { %>
+                                <option selected disabled value="">Choose...</option>
+                                <% }else{%>
+                                    <option selected disabled value="<%= existingData.status %>">
+                                        <%= existingData.status %>
+                                    </option>
+                                    <% } %>
+                                        <option>Active</option>
+                                        <option>Expired</option>
+                                        <option>Redeemed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="expiryDate" class="form-label">Expiry Date</label>
+                        <input type="text" class="form-control" id="expiryDate" name="expiryDate"
+                            value="<%= existingData.expiryDate %>">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantiy" name="quantity"
+                            value="<%= existingData.quantity %>">
+                    </div>
+                    <input type="text" value="<%=typeof existingData._id !== 'undefined' ? existingData._id : '' %>" name="id" hidden>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const selectElement = document.getElementById("type-coupon");
+        selectElement.addEventListener("change", function (event) {
+            const selectedOptionValue = event.target.value;
+            if (selectedOptionValue == "Flat") {
+                document.getElementById("maxDiscount").disabled = true;
+            } else {
+                const maxDiscountInput = document.getElementById('maxDiscount');
+                maxDiscountInput.removeAttribute('disabled');
+            }
+        });
+    </script>
+    <%- include('../layouts/adminFooter.ejs') %>

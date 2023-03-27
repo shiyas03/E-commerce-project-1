@@ -1,0 +1,84 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <!--Products card-->
+    <div class="container mt-5 bg-light">
+        <div class="row">
+            <div class="mt-2 col align-self-end justify-content-end">
+                <a href="/admin/add-products" class="btn btn-primary me-2">Add Product</a>
+
+            </div>
+        </div>
+        <div class="justify-content-center mt-3">
+            <div class="g-3 col-md-12 col-lg-12 col-12 col-sm-12 ">
+                <table class="table table-bordered border" id="">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Product Image</th>
+                            <th scope="col">Product Details</th>
+                            <th scope="col">SKU</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% if (productData) { productData.forEach((data,index)=> {%>
+                            <tr>
+                                <td>
+                                    <%= index+1 %>
+                                </td>
+                                <td>
+                                    <img src="/images/<%= data.images[0] %>" width="50px" alt="">
+                                </td>
+                                <td>
+                                    <%= data.productName %> <br>
+                                        <%= data.brand.name %> <br>
+                                            <%= data.salePrice %> <small><s>
+                                                        <%= data.price %>
+                                                    </s></small>
+                                </td>
+                                <td>
+                                    <%= data.skuCode %>
+                                </td>
+                                <td>
+                                    <%= data.category.name %>
+                                </td>
+                                <td>
+                                    <% if(data.status==='Available' ){%>
+                                        <p class="text-success tw-bold" id="status">
+                                            <%= data.status %>
+                                        </p>
+                                        <% }else{ %>
+                                            <p class="text-danger tw-bold" id="status">
+                                                <%= data.status %>
+                                            </p>
+                                            <% } %>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col col-sm-6 col-lg-3 me-1">
+                                            <a href="/admin/edit-product/?id=<%= data._id %>"
+                                                class="btn btn-primary btn-sm">Edit</a>
+                                        </div>
+                                        <div class="col col-sm-6 col-lg-3">
+                                            <% if(data.status==='Available' ){%>
+                                                <a href="/admin/status-product?id=<%= data._id %>&status=Not Available" class="btn btn-danger btn-sm" 
+                                                    onclick="changeStatus(event,'<%= data._id %>')" id="<%= data._id %>">Disable</a>
+                                                <%}else{%>
+                                                    <a href="/admin/status-product?id=<%= data._id %>&status=Available" class="btn btn-success btn-sm" 
+                                                        onclick="changeStatus(event,'<%= data._id %>')" id="<%= data._id %>">Enable</a>
+                                                    <% } %>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <%}) } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../layouts/adminFooter.ejs') %>

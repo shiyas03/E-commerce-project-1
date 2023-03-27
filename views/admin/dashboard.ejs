@@ -1,0 +1,287 @@
+<%- include('../layouts/loginHeader.ejs') %>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo bg-light">
+
+                    <h1 class="text-center fs-3 ms-2 fw-bold">Traderow</h1>
+
+                    <a href="javascript:void(0);"
+                        class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Dashboard -->
+                    <li class="menu-item nav-logout-button ">
+                        <a href="" class="menu-link btn btn-lg">
+                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+
+                    <!--Products-->
+                    <li class="menu-item mt-2">
+                        <a href="" class="menu-link menu-toggle btn">
+                            <i class="menu-icon tf-icons bx "></i>
+                            <div data-i18n="Analytics">Products</div> 
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/admin/products-list" class="menu-link">
+                                    <div data-i18n="Without menu">Product List</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/admin/add-products" class="menu-link">
+                                    <div data-i18n="Without menu">Add Products</div>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="/admin/brands-list" class="menu-link">
+                                    <div data-i18n="Without menu">Brand list</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/admin/add-brands" class="menu-link">
+                                    <div data-i18n="Without menu">Add Brands</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/Products-->
+
+                    <!--Category-->
+                    <li class="menu-item mt-2">
+                        <a href="" class="menu-link menu-toggle btn">
+                            <i class="menu-icon tf-icons bx "></i>
+                            <div data-i18n="Analytics">Categories</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/admin/category-list" class="menu-link">
+                                    <div data-i18n="Without menu">Category list</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/admin/add-category" class="menu-link">
+                                    <div data-i18n="Without menu">Add Category</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/category-->
+
+                    <!--Users-->
+                    <li class="menu-item mt-2">
+                        <a href="" class="menu-link menu-toggle btn">
+                            <i class="menu-icon tf-icons bx "></i>
+                            <div data-i18n="Analytics">Users</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/admin/users-list" class="menu-link">
+                                    <div data-i18n="Without menu">Users List</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/Users-->
+
+                    <!--Orders-->
+                    <li class="menu-item mt-2">
+                        <a href="" class="menu-link menu-toggle btn">
+                            <i class="menu-icon tf-icons bx "></i>
+                            <div data-i18n="Analytics">Orders</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/admin/orders-list" class="menu-link">
+                                    <div data-i18n="Without menu">Orders List</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/Orders-->
+
+                    <!--Coupon-->
+                    <li class="menu-item mt-2">
+                        <a href="" class="menu-link menu-toggle btn">
+                            <i class="menu-icon tf-icons bx "></i>
+                            <div data-i18n="Analytics">Coupons</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/admin/coupons-list" class="menu-link">
+                                    <div data-i18n="Without menu">Coupons-list</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/admin/add-coupon" class="menu-link">
+                                    <div data-i18n="Without menu">Add-coupon</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/Coupon-->
+
+                    <!--Banner-->
+                    <li class="menu-item mt-2">
+                        <a href="" class="menu-link menu-toggle btn">
+                            <i class="menu-icon tf-icons bx "></i>
+                            <div data-i18n="Analytics">Banners</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/admin/banners-list" class="menu-link">
+                                    <div data-i18n="Without menu">Banner-list</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/admin/add-banner" class="menu-link">
+                                    <div data-i18n="Without menu">Add-banner</div> 
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/Banner-->
+
+                     <!--Sales report-->
+                     <li class="menu-item mt-2">
+                        <a href="" class="menu-link menu-toggle btn">
+                            <i class="menu-icon tf-icons bx "></i>
+                            <div data-i18n="Analytics">Sales</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/admin/banners-list" class="menu-link">
+                                    <div data-i18n="Without menu">Banner-list</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/Sales report-->
+
+                </ul>
+            </aside>
+            <!-- / Menu -->
+
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Navbar -->
+
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <!-- Search -->
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item d-flex align-items-center">
+                                <i class="bx bx-search fs-4 lh-0"></i>
+                                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                                    aria-label="Search..." />
+                            </div>
+                        </div>
+                        <!-- /Search -->
+
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                            <!-- User -->
+                            <li class="nav-item">
+                                <form action="admin/logout" method="post">
+                                    <button class="nav-logout-button"><i class="bx">Logout</i></button>
+                                </form>
+                            </li>
+                            <!--/ User -->
+                        </ul>
+                    </div>
+                </nav>
+
+                <!-- / Navbar -->
+
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-4 order-1">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-12 col-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+                                                  </svg>
+                                                <span class="fw-semibold d-block mb-1">Users</span>
+                                                <h3 class="card-title mb-2">Total Users : <%= typeof users !== 'undefined' ? users.length : 0 %></h3>
+                                                <small class="text-danger">No.of users Blocked : <%= typeof blocked !== 'undefined' ? blocked : 0 %></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 col-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box" viewBox="0 0 16 16">
+                                                    <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
+                                                  </svg>
+                                                <span class="d-block mb-1">Orders</span>
+                                                <h3 class="card-title text-nowrap mb-1">Total Orders : <%= typeof orders !== 'undefined' ? orders : '' %></h3>
+                                                <small class="text-danger">No.of Returns : <%= typeof returned !== 'undefined' ? returned : 0 %></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 col-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paypal" viewBox="0 0 16 16">
+                                                    <path d="M14.06 3.713c.12-1.071-.093-1.832-.702-2.526C12.628.356 11.312 0 9.626 0H4.734a.7.7 0 0 0-.691.59L2.005 13.509a.42.42 0 0 0 .415.486h2.756l-.202 1.28a.628.628 0 0 0 .62.726H8.14c.429 0 .793-.31.862-.731l.025-.13.48-3.043.03-.164.001-.007a.351.351 0 0 1 .348-.297h.38c1.266 0 2.425-.256 3.345-.91.379-.27.712-.603.993-1.005a4.942 4.942 0 0 0 .88-2.195c.242-1.246.13-2.356-.57-3.154a2.687 2.687 0 0 0-.76-.59l-.094-.061ZM6.543 8.82a.695.695 0 0 1 .321-.079H8.3c2.82 0 5.027-1.144 5.672-4.456l.003-.016c.217.124.4.27.548.438.546.623.679 1.535.45 2.71-.272 1.397-.866 2.307-1.663 2.874-.802.57-1.842.815-3.043.815h-.38a.873.873 0 0 0-.863.734l-.03.164-.48 3.043-.024.13-.001.004a.352.352 0 0 1-.348.296H5.595a.106.106 0 0 1-.105-.123l.208-1.32.845-5.214Z"/>
+                                                  </svg>
+                                                <span class="d-block mb-1">Profit</span>
+                                                <h3 class="card-title text-nowrap mb-2">Total Sales : ₹<%= typeof total !== 'undefined' ? total : 0 %></h3>
+                                                <small class="text-danger fw-semibold">Sales on the way : ₹<%= typeof upcoming !== 'undefined' ? upcoming : 0 %></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Order Statistics -->
+                            
+                        </div>
+                    </div>
+                    <!-- / Content -->
+
+                    <!-- Footer -->
+                    <footer class="content-footer footer bg-footer-theme">
+
+                    </footer>
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+            <!-- / Layout page -->
+        </div>
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+
+    <%- include('../layouts/loginFooter.ejs') %>

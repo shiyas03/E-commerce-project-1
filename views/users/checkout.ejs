@@ -1,0 +1,99 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+  <!-- Main Section-->
+  <section class="">
+    <!-- Page Content Goes Here -->
+    <div class="container-fluid ms-3">
+      <div class="row g-0 vh-lg-100">
+        <div class="col-lg-7 ">
+          <div class="pe-lg-5">
+            <nav class="d-none d-md-block">
+              <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
+                <li class="me-4"><a class="nav-link-checkout " href="/cart">Your Cart</a></li>
+                <li class="me-4"><a class="nav-link-checkout  active" href="/product-checkout">Information</a></li>
+                <li><a class="nav-link-checkout nav-link-last" href="/product-payment">Payment</a></li>
+              </ul>
+            </nav>
+            <p class="m-4">
+              <a class="btn btn-outline-secondary text-dark" type="button" href="/user-address">
+                Add New Address Here
+              </a>
+            </p>
+
+            <div class="mt-2">
+              <h4 class="p-4">Your Address</h4>
+              <form action="/product-payment" method="post" id="checkout-form">
+                <!-- Checkout Panel Information -->
+                <div class="row">
+                  <% if (addressData.length> 0) {addressData.forEach(data => { %>
+                    <div class="col">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="selectedAddress" id="address_<%= data._id %>"
+                        value="<%= data._id %>">
+                      <label class="form-check-label" for="address_<%= data._id %>">
+                        <div class="card border-light">
+                          <div class="card-body">
+                            <p class="card-text"><b>
+                                <%= data.firstName %>
+                              </b><br>
+                              <%= data.number %> <br>
+                                <%= data.email %> <br>
+                                  <%= data.address %> <br>
+                                    <%= data.landMark %> <br>
+                                      <%= data.pincode %>
+                            </p>
+                            <a href="/edit-address/?addressId=<%= data._id %>&checkout=true"
+                              class="btn btn-secondary btn-sm">Edit</a>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                    <% }) } %>
+                </div>
+
+                    <input type="text" name="couponCode" value="<%=typeof code !== 'undefined' ? code : '' %>"
+                      id="couponCode" hidden>
+                    <div class="d-grid gap-2 m-4">
+                      <button class="btn btn-dark" type="submit" onclick="proceedPyment()">Proceed to Payment</button>
+                    </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5 bg-light pt-5 aside-checkout ">
+          <div class="p-4">
+            <div class="pb-4 ">
+              <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
+                <div>
+                  <p class="m-0 fw-bold fs-6">Delivery Charges</p>
+                  <hr>
+                  <p class="m-0 fw-bold fs-5 text">Grand Total</p>
+                  <!-- <span class="text-muted small">Inc $45.89 sales tax</span> -->
+                </div>
+                <div class="me-2">
+                  <p class="m-0 fw-bold fs-6 text-end">Free Delivery</p>
+                  <hr>
+                  <p class="m-0 fw-bold fs-5 text-end text-dark">
+                    <%= typeof totalSalePrice !=='undefined' ? totalSalePrice : '' %>
+                  </p>
+                </div>
+              </div>
+              <hr>
+            </div>
+            <!-- <div class="py-4">
+                <div class="input-group mb-0">
+                    <input type="text" class="form-control" placeholder="Enter coupon code">
+                    <button class="btn btn-secondary btn-sm px-4">Apply</button>
+                </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Content -->
+  </section>
+  <!-- / Main Section-->
+
+
+  <%- include('../layouts/userFooter.ejs') %>

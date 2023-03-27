@@ -1,0 +1,81 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <!--Products card-->
+    <div class="container-fluid bg-light">
+        <!-- <div class="row justify-content-end py-3">
+            <div class="col-5 d-flex">
+                <form class="d-flex me-2" method="post" action="/admin/search-product">
+                    <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+            </div>
+        </div> -->
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10 col-12 p-5">
+                <table class="table table-bordered border" id="table-setting">
+                    <thead>
+                        <tr>
+                            <th scope="col"><p class="text-center my-auto">No</p></th>
+                            <th scope="col"><p class="text-center my-auto">User Name</p></th>
+                            <th scope="col"><p class="text-center my-auto">Email</p></th>
+                            <th scope="col"><p class="text-center my-auto">Mobile Number</p></th>
+                            <th scope="col"><p class="text-center my-auto">Status</p></th>
+                            <th scope="col"><p class="text-center my-auto">Actions</p></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(userData){ userData.forEach((data,index)=> { %>
+                            <tr>
+                                <td><%= index+1 %></td>
+                                <td><%= data.userName %></td>
+                                <td><%= data.email %></td>
+                                <td><%= data.mobileNumber %></td>
+                                <td>
+                                    <% if(data.access == false){ %>
+                                        <p class="text-danger">Blocked</p>
+                                    <% }else{ %>
+                                        <p class="text-success">Active</p>
+                                   <% } %>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <% if(data.access == false){ %>
+                                                <a href="/admin/user-access/?id=<%= data._id %>&access=true" class="btn btn-success btn-sm"
+                                                    onclick="changeStatus(event,'<%= data._id %>')" id="<%= data._id %>">
+                                                    Unblock
+                                                </a>
+                                            <% }else{ %>
+                                                <a href="/admin/user-access/?id=<%= data._id %>&access=false" class="btn btn-danger btn-sm"
+                                                    onclick="changeStatus(event,'<%= data._id %>')" id="<%= data._id %>">
+                                                    Block
+                                                </a>
+                                           <% } %>   
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) }%>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!-- <div class="row justify-content-center mb-5 ">
+            <div class="col-lg-2 mt-5 mb-5">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                            <li class="page-item active"><a class="page-link text-dark"
+                                    href="">1</a></li>
+                                <li class="page-item"><a class="page-link text-dark" 
+                                    href="">2</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div> -->
+    </div>
+
+    <script>
+
+    </script>
+    <%- include('../layouts/adminFooter.ejs') %>

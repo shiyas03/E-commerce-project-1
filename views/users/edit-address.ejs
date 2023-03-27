@@ -1,0 +1,82 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+ 
+    <div class="container-fluid">
+        <div class="row py-5 justify-content-center">
+            <div class="col col-lg-10">
+                <div class="card border">
+                    <div class="card-body">
+                        <p class="text-center fs-4">Your Address</p>
+                        <hr>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <p class="text-center text-danger"><%= typeof error !=='undefined' ? error : '' %></p>
+                                <form class="row g-3" method="post">
+                                    <% if(addressData){ addressData.forEach(data=>{ %>
+                                        <div class="col-md-6">
+                                            <label for="validationCustom01" class="form-label">First
+                                                name</label>
+                                            <input type="text" class="form-control" id="validationCustom01" name="firstName"
+                                                value="<%= data.firstName %>">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="validationCustom02" class="form-label">Last
+                                                name</label>
+                                            <input type="text" class="form-control" id="validationCustom02"
+                                                name="secondName" value="<%= data.secondName %>">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="validationCustom02" class="form-label">Email</label>
+                                            <input type="text" class="form-control" id="validationCustom02" name="email"
+                                                value="<%= data.email %>">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="validationCustom02" class="form-label">mobile
+                                                Number</label>
+                                            <input type="text" class="form-control" id="validationCustom02"
+                                                name="mobileNumber" value="<%= data.number %>">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="validationCustom04" class="form-label">Country</label>
+                                            <select class="form-select" id="validationCustom04" name="country" >
+                                                <option selected value="<%= data.country %>"><%= data.country %></option>
+                                                <option>India</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="validationCustom04" class="form-label">State</label>
+                                            <select class="form-select" id="validationCustom04" name="state" >
+                                                <option selected value="<%= data.state %>"><%= data.state %></option>
+                                                <option>Kerala</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlTextarea1" class="form-label">Address</label>
+                                            <input type="text" class="form-control" name="address" value="<%= data.address %>">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label for="validationCustom05" class="form-label">Land
+                                                Mark</label>
+                                            <input type="text" class="form-control" id="validationCustom05" name="landMark"
+                                                value="<%= data.landMark %>">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="validationCustom05" class="form-label">Pincode</label>
+                                            <input type="text" class="form-control" id="validationCustom05" name="pincode"
+                                                value="<%= data.pincode%>">
+                                        </div>
+                                        <input type="text" id="addressId" name="addressId" class="form-control" value="<%= data._id %>" hidden>
+                                        <div class="col-12">
+                                            <button class="btn btn-secondary" type="submit">Update</button>
+                                        </div>
+                                    <% }) } %>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../layouts/userFooter.ejs') %>

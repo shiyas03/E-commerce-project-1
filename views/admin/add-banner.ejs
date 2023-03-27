@@ -1,0 +1,87 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <div class="container mt-3">
+        <div class="row justify-content-center bg-light">
+            <div class="col-lg-10 m-5">
+                <p class="text-danger text-center" id="error"></p>
+                <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data"
+                    onsubmit="validation()">
+                    <div class="col-md-6">
+                        <label for="heading" class="form-label">Heading</label>
+                        <input type="text" class="form-control" id="heading" name="heading" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="subHeading" class="form-label">Sub Heading</label>
+                        <input type="text" class="form-control" id="subHeading" name="subHeading" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="buttonText" class="form-label">Button Text</label>
+                        <input type="text" class="form-control" id="text" name="buttonText" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="buttonText" class="form-label">Button Link</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">/</span>
+                            <input type="text" class="form-control" aria-label="buttonLink"
+                                aria-describedby="basic-addon1" id="link" name="buttonLink">
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="form-check m-2">
+                            <label class="form-check-label" for="enable">
+                                Enable
+                            </label>
+                            <input class="form-check-input" type="radio" name="status" id="status" value="true" checked>
+                        </div>
+                        <div class="form-check m-2">
+                            <label class="form-check-label" for="disable">
+                                Disable
+                            </label>
+                            <input class="form-check-input" type="radio" name="status" id="status" value="false">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image Upload</label>
+                        <input class="form-control" type="file" id="image" name="image">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function validation() {
+            const heading = document.getElementById("heading").value
+            const subHeading = document.getElementById("subHeading").value
+            const buttonText = document.getElementById("text").value
+            const buttonLink = document.getElementById("link").value
+            const status = document.getElementById("status").value
+            const image = document.getElementById("image").value
+            if (!heading.trim() || !subHeading.trim() || !buttonText.trim() || !buttonLink.trim() || !image) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            } else {
+                const image = imageInput.file
+                $.ajax({
+                    method: "post",
+                    url: "/admin/add-banner",
+                    data: {
+                        heading: heading,
+                        subHeading: subHeading,
+                        buttonText: buttonText,
+                        buttonLink: buttonLink,
+                        status: status,
+                        image: image
+                    }
+                })
+            }
+        }
+    </script>
+    <%- include('../layouts/adminFooter.ejs') %>

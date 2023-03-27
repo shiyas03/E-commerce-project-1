@@ -1,0 +1,111 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+
+    <div class="container mt-3">
+        <div class="row justify-content-center bg-light">
+            <div class="col-lg-10 m-5">
+                <p class="text-danger text-center">
+                    <%= typeof fieldError !=='undefined' ? fieldError : '' %>
+                </p>
+                <% if (productData) { %>
+                    <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
+                        <div class="col-md-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productName" name="productName"
+                                value="<%= productData.productName %>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="skuCode" class="form-label">SKU code</label>
+                            <input type="text" class="form-control" id="skuCode" name="skuCode"
+                                value="<%= productData.skuCode %>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="brand" class="form-label">Brand</label>
+                            <select class="form-select" id="brand" name="brand">
+                                <option selected value="<%= productData.brand._id %>">
+                                    <%= productData.brand.name %>
+                                </option>
+                                <% if (brandData) { brandData.forEach(data=> { %>
+                                    <option value="<%= data._id %>">
+                                        <%= data.name %>
+                                    </option>
+                                    <%}) }%>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" name="category">
+                                <option selected value="<%= productData.category._id %>">
+                                    <%= productData.category.name %>
+                                </option>
+                                <% if(categoryData){ categoryData.forEach(data=> {%>
+                                    <option value="<%= data._id %>">
+                                        <%= data.name %>
+                                    </option>
+                                    <% }) } %>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="for" class="form-label">For</label>
+                            <select class="form-select" id="for" name="gender">
+                                <option selected value="<%= productData.gender %>">
+                                    <%= productData.gender %>
+                                </option>
+                                <option>Men</option>
+                                <option>Women</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="price" name="price"
+                                value="<%= productData.price %>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="salePrice" class="form-label">Sale Price</label>
+                            <input type="text" class="form-control" id="salePrice" name="salePrice"
+                                value="<%= productData.salePrice %>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity"
+                                value="<%= productData.quantity %>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status">
+                                <option selected value="<%= productData.status %>">
+                                    <%= productData.status %>
+                                </option>
+                                <option value="Available">Available</option>
+                                <option value="Not Available">Not Available</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3" name="description"
+                                placeholder="more about product..."><%= productData.description %></textarea>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <% images.forEach((data)=>{ %>
+                                    <div class="col col-lg-2">
+                                        <img src="/images/<%= data %>" width="100px" alt="">
+                                        <a href="/admin/delete-image/?id=<%= data %>" class="btn btn-primary">Delete</a>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="imageMultiple" class="form-label">Images Upload</label>
+                            <input class="form-control" type="file" id="imageMultiple" name="images" multiple>
+                        </div>
+                        <input type="" name="id" value="<%= productData._id %>" hidden>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                    </form>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/adminFooter.ejs') %>

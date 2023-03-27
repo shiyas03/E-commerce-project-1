@@ -1,0 +1,54 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+   
+    
+    <div class="container-fluid mt-5">
+        <div class="row py-3 justify-content-center">
+            <div class="col col-lg-10">
+                <div class="card border border-secondary">
+                    <div class="card-body">
+                        <p class="text-center fs-4 fw-bold">Your Details</p>
+                        <hr>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 m-3">
+                                <table class="table table-bordered ">
+                                    <% if(userData){ %>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-lg-3">User Name</td>
+                                                <td class="text-dark"><%= userData.userName %></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-lg-3">Email</td>
+                                                <td class="text-dark"><%= userData.email %></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-lg-3">Mobile Number</td>
+                                                <td class="text-dark"><%= userData.mobileNumber %></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="" colspan="2"><a href="/edit-profile?id=<%= userData._id %>" class="btn btn-secondary">Edit</a></td>
+                                            </tr>
+                                        </tbody>
+                                  <% } %>    
+                                </table>
+
+                                <table class="table table-bordered mt-3">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-lg-3">Password</td>
+                                            <td>********</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="" colspan="2"><a href="/password-reset" class="btn btn-secondary">Reset Password</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/userFooter.ejs') %>

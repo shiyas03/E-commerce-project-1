@@ -1,0 +1,37 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+    <!-- Main Section-->
+    <section class="mt-0 overflow-lg-hidden">
+        <!-- Page Content Goes Here -->
+        <div class="container">
+            <h3 class="fs-4 fw-bolder p-3">Your Wishlist</h3>
+            <div class="row mb-5">
+                <% if(productData.length > 0){productData.forEach(data=> { %>
+                    <div class="col  col-lg-4">
+                        <div class="card">
+                            <img src="/images/<%= data.productId.images[0] %>" class="card-img-top" alt="...">
+                            <div class="card-body" style="height: 160px; overflow: hidden;">
+                                <h5 class="card-title"><%= data.productId.productName %></h5>
+                                <p class="card-text">
+                                    <%= data.productId.salePrice %> <s><small><%= data.productId.price %></small></s>
+                                </p>
+                                <a href="/view-product?id=<%= data.productId._id %>" class="btn btn-secondary">View</a>
+                                <a href="/remove-wishlist?id=<%= data.productId._id %>" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-trash3" viewBox="0 0 16 16">
+                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                  </svg> Remove</a>
+                                  <a href="/add-to-cart?id=<%= data.productId._id %>&wishlist=true" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+                                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+                                  </svg> Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <% })}else{ %>
+                        <h5 class="fs-5 fw-bolder p-3">No Products,<a href="/products">  Continue Shopping</a></h5>
+                    <% } %>
+            </div>
+        </div>
+        <!-- /Page Content -->
+    </section>
+    <!-- / Main Section-->
+
+    <%- include('../layouts/userFooter.ejs') %>

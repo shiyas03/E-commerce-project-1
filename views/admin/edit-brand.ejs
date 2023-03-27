@@ -1,0 +1,42 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+
+    <div class="container mt-3">
+        <div class="row justify-content-center bg-light">
+            <div class="col-lg-10 m-5">
+                <p class="text-center text-danger">
+                    <%= typeof fieldError !=='undefined' ? fieldError : '' %>
+                </p>
+                <% if(brandData){ %>
+                    <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
+                        <div class="col-md-6">
+                            <label for="brandName" class="form-label">Brand Name</label>
+                            <input type="text" class="form-control" id="brandName" name="brandName"
+                                placeholder="Brand name" value="<%= brandData.name %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="brandDescription" name="description"
+                                placeholder="Description" value="<%= brandData.description %>">
+                        </div>
+                        <div class="">
+                            <% if(brandData.image) {%>
+                                <img src="/images/<%= brandData.image %>" width="100px" alt="">
+                                <a href="/admin/delete-brandImage/?id=<%= brandData._id  %>"
+                                    class="btn btn-primary btn-sm">Delete</a>
+                                <% } %>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Add another image</label>
+                            <input class="form-control" type="file" id="image" name="image">
+                        </div>
+                        <input type="text" name="id" value="<%= brandData._id %>" hidden>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/adminFooter.ejs') %>

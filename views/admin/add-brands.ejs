@@ -1,0 +1,27 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <div class="container mt-3">
+        <div class="row justify-content-center bg-light">
+            <div class="col-lg-10 m-5"> 
+                <p class="text-danger text-center"><%=typeof fieldError !== 'undefined' ? fieldError : '' %></p>
+                <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
+                    <div class="col-md-6">
+                        <label for="brandName" class="form-label">Brand Name</label>
+                        <input type="text" class="form-control" id="brandName" name="brandName" placeholder="Brand name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="3" name="description" placeholder="more about category..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image Upload</label>
+                        <input class="form-control" type="file" id="image" name="image">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/adminFooter.ejs') %>

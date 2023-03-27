@@ -1,0 +1,121 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <!--Products card-->
+    <div class="container-fluid bg-light">
+        <div class="row justify-content-end py-3">
+            <!-- <div class="col-5 d-flex">
+                <form class="d-flex me-2" method="post" action="/admin/search-product">
+                    <input class="form-control me-2" type="search" placeholder="Search" name="search"
+                        aria-label="Search">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+            </div> -->
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10 col-12">
+                <% if(!orderDatas.length || orderDatas=='' ){ %>
+                    <h5>Order is Empty, Continue Shopping</h5>
+                    <% }else{ %>
+                        <table class="table table-bordered border" id="table-setting">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <p class="text-center my-auto">No</p>
+                                    </th>
+                                    <th scope="col">
+                                        <p class="text-center my-auto">Images</p>
+                                    </th>
+                                    <th scope="col">
+                                        <p class="text-center my-auto">Product Details</p>
+                                    </th>
+                                    <th scope="col">
+                                        <p class="text-center my-auto">User Details</p>
+                                    </th>
+                                    <th scope="col">
+                                        <p class="text-center my-auto">Payment Method</p>
+                                    </th>
+                                    <th scope="col">
+                                        <p class="text-center my-auto">Payment Status</p>
+                                    </th>
+                                    <th scope="col">
+                                        <p class="text-center my-auto">Status</p>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% orderDatas.forEach((data,i)=>{ %>
+                                    <tr>
+                                        <td>
+                                            <%= i+1 %>
+                                        </td>
+                                        <td><img src="/images/<%= data.productId.images[0] %>" width="50px" alt="">
+                                        </td>
+                                        <td>
+                                            <%= data.productId.productName %> <br>
+                                                Quantity : <%= data.orderedQuantity %> <br>
+                                                    Total Price : <%= data.totalSalePrice %>
+                                                        <p class="text-dark fw-bold ">Ordered Date: <%= dates[i].originalDate %>
+                                                                <br> Delivery Expected by: <%= dates[i].newDate %>
+                                                        </p>
+                                        </td>
+                                        <td>
+                                            <%= data.userId.userName %> <br>
+                                            <%= data.userId.email %> <br>
+                                            <%= data.userId.mobileNumber %>
+                                        </td>
+                                        <td>
+                                            <%= data.paymentMethod %>
+                                        </td>
+                                        <td>
+                                            
+                                            <%= data.paymentStatus %>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" aria-label="Default select example"
+                                                id="<%= data._id %>" onchange="orderId(event,'<%= data._id %>')">
+                                                <option><%= data.status%></option>
+                                                <option value="Placed">Placed</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                                <option value="Shipped">Shipped</option>
+                                                <option value="Delivered">Delivered</option>
+                                            </select>
+                                            <% if(data.status == "Returning"){ %>
+                                                <a href="/return-confirm?id=<%= data._id %>" class="btn btn-danger">Confirm Return</a>
+                                                <% }%>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function orderId(e,orderId) {
+            e.preventDefault();
+            const selectElement = document.getElementById(orderId);
+            let selectedOptionValue; 
+            function handleSelectChange() {
+                selectedOptionValue = selectElement.value;
+            }
+            selectElement.addEventListener("change", handleSelectChange);
+            handleSelectChange();
+            console.log(selectedOptionValue);
+            $.ajax({
+                method : "post",
+                url : "/admin/status-order",
+                data : {
+                    orderId : orderId,
+                    status : selectedOptionValue
+                },
+                success : (response)=>{
+                    location.href = '/admin/orders-list'
+                }
+            })
+        } 
+    </script>
+
+    <%- include('../layouts/adminFooter.ejs') %>

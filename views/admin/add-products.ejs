@@ -1,0 +1,86 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+    <div class="container mt-3"> 
+        <div class="row justify-content-center bg-light">
+            <div class="col-lg-10 m-5">
+                <p class="text-danger text-center"><%= typeof nameField !== 'undefined' ? nameField: " "  %></p> 
+                <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
+                    <div class="col-md-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="productName"
+                            placeholder="product name" value=""> 
+                    </div>
+                    <div class="col-md-3">
+                        <label for="skuCode" class="form-label">SKU code</label>
+                        <input type="text" class="form-control" id="skuCode" name="skuCode" value="<%= randomString %>">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="brand" class="form-label">Brand</label>
+                        <select class="form-select" id="brand" name="brand">
+                            <option selected disabled value="">Choose...</option>
+                            <% if (brandData) { brandData.forEach(data=> { %>
+                                <option value="<%= data._id %>">
+                                    <%= data.name %>
+                                </option>
+                                <%}) }%> 
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category">
+                            <option selected disabled value="">Choose...</option>
+                            <% if(categoryData){ categoryData.forEach(data=> {%>
+                                <option value="<%= data._id %>">
+                                    <%= data.name %>
+                                </option>
+                                <% }) } %>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="for" class="form-label">For</label>
+                        <select class="form-select" id="for" name="gender">
+                            <option selected disabled value="">Choose...</option>
+                            <option>Men</option>
+                            <option>Women</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="price" name="price"
+                            placeholder="price include all taxes">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="salePrice" class="form-label">Sale Price</label>
+                        <input type="number" class="form-control" id="salePrice" name="salePrice"
+                            placeholder="discount price">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="quantity" class="form-label">quantity</label> 
+                        <input type="number" class="form-control" id="quantity" name="quantity"
+                            placeholder="Number of quantity">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status">
+                            <option selected disabled>Choose...</option>
+                            <option value="Available">Available</option>
+                            <option value="Not Available">Not Available</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="3" name="description"
+                            placeholder="more about product..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imageMultiple" class="form-label">Images Upload</label>
+                        <input class="form-control" type="file" id="imageMultiple" name="images" multiple>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/adminFooter.ejs') %>
