@@ -25,9 +25,9 @@
                                                                     <%= addressData.pincode %>  
                                             </p>
                                             <a href="/edit-address?addressId=<%= addressData._id %>"
-                                                class="btn btn-secondary">Edit</a>
+                                                class="btn btn-primary">Edit</a>
                                             <a href="/delete-address?addressId=<%= addressData._id %>"
-                                                class="btn btn-danger">Delete</a>
+                                                class="btn btn-danger" onclick="deleteAddress(event,'<%= addressData._id %>')" id="<%= addressData._id %>">Delete</a>
                                         </div>
                                         </label>
                                     </div>
@@ -53,45 +53,45 @@
                                             <div class="collapse" id="collapseExample">
                                                 <div class="card card-body">
                                                     <p class="text-center text-danger"><%= typeof error !=='undefined' ? error : '' %></p>
-                                                    <form class="row g-3" method="post">
+                                                    <form class="row g-3" method="post" id="address-form">
                                                         <div class="col-md-6">
                                                             <label for="validationCustom01" class="form-label">First
                                                                 name </label>
                                                             <input type="text" class="form-control"
-                                                                id="validationCustom01" name="firstName"  >
+                                                                id="first-name" name="firstName"  >
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="validationCustom02" class="form-label">Last
                                                                 name</label>
                                                             <input type="text" class="form-control"
-                                                                id="validationCustom02" name="secondName" >
+                                                                id="last-name" name="secondName" >
                                                         </div>
                                                         <div class="col-md-12">
                                                             <label for="validationCustom02"
                                                                 class="form-label">Email</label>
                                                             <input type="text" class="form-control"
-                                                                id="validationCustom02" name="email" >
+                                                                id="email" name="email" >
                                                         </div>
                                                         <div class="col-md-12">
                                                             <label for="validationCustom02" class="form-label">mobile
                                                                 Number</label>
                                                             <input type="text" class="form-control"
-                                                                id="validationCustom02" name="mobileNumber" >
+                                                                id="mobile-number" name="mobileNumber" >
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="validationCustom04"
                                                                 class="form-label">Country</label>
-                                                            <select class="form-select" id="validationCustom04"
-                                                                name="country" required>
-                                                                <option selected disabled>Choose...</option>
+                                                            <select class="form-select" id="country"
+                                                                name="country" >
+                                                                <option selected disabled value="">Choose...</option>
                                                                 <option>India</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="validationCustom04"
                                                                 class="form-label">State</label>
-                                                            <select class="form-select" id="validationCustom04"
-                                                                name="state" required>
+                                                            <select class="form-select" id="state"
+                                                                name="state">
                                                                 <option selected disabled value="">Choose...
                                                                 </option>
                                                                 <option>Kerala</option>
@@ -101,32 +101,40 @@
                                                             <label for="exampleFormControlTextarea1"
                                                                 class="form-label">Address</label>
                                                             <textarea class="form-control"
-                                                                id="exampleFormControlTextarea1" rows="2"
+                                                                id="address" rows="2"
                                                                 name="address"></textarea>
                                                         </div>
                                                         <div class="col-md-8">
                                                             <label for="validationCustom05" class="form-label">Land
                                                                 Mark</label>
                                                             <input type="text" class="form-control"
-                                                                id="validationCustom05" name="landMark" >
+                                                                id="landMark" name="landMark" >
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="validationCustom05"
                                                                 class="form-label">Pincode</label>
                                                             <input type="text" class="form-control"
-                                                                id="validationCustom05" name="pincode" >
+                                                                id="pincode" name="pincode" placeholder="atleast 6 characters">
                                                         </div>
                                                         <div class="col-12">
                                                             <button class="btn btn-secondary"
-                                                                type="submit">Submit</button>
+                                                                type="submit" onclick="addressValidation(event)">Submit</button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>
         </div>
+
+
+<script>
+
+
+
+</script>
+
         <%- include('../layouts/userFooter.ejs') %>

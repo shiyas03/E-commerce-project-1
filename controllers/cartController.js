@@ -8,19 +8,7 @@ const Wallet = require('../models/walletModel')
 //For view wishlisted products
 const loadWishlist = async (req, res) => {
     try {
-        let walletAmount = 0;
-        await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-            .then(async(data) => {
-                if (!data) {
-                    const wallet = new Wallet({
-                        amount : 0,
-                        userId: req.session.userId
-                    })
-                    await wallet.save()
-                } else {
-                    walletAmount = data.amount
-                }
-            })
+        const walletAmount = req.session.wallet || 0;
         const userId = req.session.userId
         const productData = await Wishlist.findOne({ userId: userId }).populate('product.productId')
         if (productData) {
@@ -37,7 +25,7 @@ const loadWishlist = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -93,20 +81,7 @@ const loadCart = async (req, res) => {
         const userId = req.session.userId
         const cartData = await Cart.findOne({ userId: userId }).populate("product.productId")
         const coupons = await Coupon.find()
-        let walletAmount = 0;
-        await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-            .then(async(data) => {
-                if (!data) {
-                    const wallet = new Wallet({
-                        amount : 0,
-                        userId: req.session.userId
-                    })
-                    await wallet.save()
-                } else {
-                    walletAmount = data.amount
-                }
-            })
-
+        const walletAmount = req.session.wallet || 0;
         if (cartData) {
             if (cartData.product.length > 0) {
                 let totalSalePrice = cartData.product.reduce((acc, cur) => {
@@ -139,7 +114,7 @@ const loadCart = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -152,13 +127,13 @@ const addToCart = async (req, res) => {
         const quantity = 1;
         const productData = await Products.findOne({ _id: productId })
         const totalSalePrice = productData.salePrice;
-        const cartData = await Cart.findOne({ userId: userId })
+        let cartData = await Cart.findOne({ userId: userId })
         if (!cartData) {
             const cart = new Cart({
                 product: [],
                 userId: userId
             })
-            await cart.save()
+            cartData = await cart.save()
         }
         const productExist = cartData.product.find((data) => data.productId.toString() == productId)
         if (productExist) {
@@ -208,19 +183,7 @@ const productCheckout = async (req, res) => {
     try {
         const code = req.body.couponCode
         const cartData = await Cart.findOne({ userId: req.session.userId }).populate("product.productId").populate("product.couponId")
-        let walletAmount = 0;
-        await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-            .then(async(data) => {
-                if (!data) {
-                    const wallet = new Wallet({
-                        amount : 0,
-                        userId: req.session.userId
-                    })
-                    await wallet.save()
-                } else {
-                    walletAmount = data.amount
-                }
-            })
+        const walletAmount = req.session.wallet || 0;
         if (cartData) {
             const userData = await User.findOne({ _id: req.session.userId })
             let totalSalePrice = cartData.product.reduce((acc, cur) => {
@@ -243,7 +206,7 @@ const productCheckout = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -251,19 +214,7 @@ const productCheckout = async (req, res) => {
 const productPayment = async (req, res) => {
     try {
         const { selectedAddress, couponCode } = req.body
-        let walletAmount = 0;
-        await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-            .then(async(data) => {
-                if (!data) {
-                    const wallet = new Wallet({
-                        amount : 0,
-                        userId: req.session.userId
-                    })
-                    await wallet.save()
-                } else {
-                    walletAmount = data.amount
-                }
-            })
+        const walletAmount = req.session.wallet || 0;
         let totalSalePrice;
         if (selectedAddress) {
             const cartData = await Cart.findOne({ userId: req.session.userId }).populate("product.productId").populate("product.couponId")
@@ -290,7 +241,7 @@ const productPayment = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -305,15 +256,13 @@ const changeQuantity = async (req, res) => {
         const AddSalePrice = product.totalSalePrice + Number(salePrice)
         const MinusSalePrice = product.totalSalePrice - Number(salePrice)
         if (afterQuantity != 0 && afterQuantity <= product.productId.quantity) {
+            await Cart.findOneAndUpdate({ userId: userData, 'product.productId': productId },
+                { $inc: { 'product.$.quantity': quantity } })
             if (quantity == 1) {
-                await Cart.findOneAndUpdate({ userId: userData, 'product.productId': productId },
-                    { $inc: { 'product.$.quantity': quantity } })
                 await Cart.findOneAndUpdate({ userId: userData, 'product.productId': productId },
                     { $set: { "product.$.totalSalePrice": AddSalePrice } })
                 res.json({ success: true })
             } else {
-                await Cart.findOneAndUpdate({ userId: userData, 'product.productId': productId },
-                    { $inc: { 'product.$.quantity': quantity } })
                 await Cart.findOneAndUpdate({ userId: userData, 'product.productId': productId },
                     { $set: { "product.$.totalSalePrice": MinusSalePrice } })
                 res.json({ success: false })
@@ -338,5 +287,5 @@ module.exports = {
     productCheckout,
     productPayment,
     changeQuantity,
-   
+
 }

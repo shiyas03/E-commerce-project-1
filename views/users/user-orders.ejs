@@ -55,9 +55,10 @@
                                             <% if( data.status == 'Cancelled'  ) {  %>
                                                 <a href="" class="btn btn-danger disabled">Cancel</a>
                                                 <% }else if(data.status == 'Delivered'){%>
-                                                    <a href="/return-order?id=<%= data._id %>" class="btn btn-warning">Return</a>
+                                                    <a href="/return-order?id=<%= data._id %>" class="btn btn-warning" onclick="returnCancel(event,'<%= data._id %>')" id="<%= data._id %>">Return</a>
+                                                    <p class="text-muted">Return only accepted within 7 days after delivery</p>
                                                 <%}else{ %>
-                                                    <a href="/cancel-order?id=<%= data._id %>" class="btn btn-danger">Cancel</a>
+                                                    <a href="/cancel-order?id=<%= data._id %>" class="btn btn-danger" onclick="cancelOrder(event,'<%= data._id %>')" id="<%= data._id %>">Cancel</a>
                                                 <% } %>
                                         </td>
                                     </tr>

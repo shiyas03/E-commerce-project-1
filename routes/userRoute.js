@@ -64,9 +64,9 @@ user_route.get('/product-checkout',checkUser,cartController.loadCart);
 user_route.get('/product-payment',checkUser,cartController.loadCart);
 user_route.post('/product-payment',cartController.productPayment);
 
-user_route.post('/place_order',orderController.placeOrder);
-user_route.post('/verify-payment',orderController.verifyPayment);
-user_route.post('/order-confirm',orderController.orderConfirm);
+user_route.post('/place_order',checkUser,orderController.placeOrder);
+user_route.post('/verify-payment',checkUser,orderController.verifyPayment);
+user_route.post('/order-confirm',checkUser,orderController.orderConfirm);
 user_route.get('/orders',checkUser,orderController.userOrders);
 user_route.get('/cancel-order',checkUser,orderController.orderCancel);
 user_route.get('/return-order',checkUser,orderController.returnOrder);

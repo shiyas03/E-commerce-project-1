@@ -306,7 +306,6 @@ function resetNumberValidation(event) {
 
 function resetOtpValidation(event) {
     event.preventDefault(); // Prevent the default form submission
-
     function sweetAlert(message) {
         Swal.fire({
             toast: true,
@@ -343,3 +342,4 @@ function resetOtpValidation(event) {
 
     }
 }
+

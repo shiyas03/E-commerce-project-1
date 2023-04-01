@@ -4,7 +4,7 @@
         <div class="row justify-content-center bg-light">
             <div class="col-lg-10 m-5"> 
                 <p class="text-danger text-center"><%=typeof fieldError !== 'undefined' ? fieldError : '' %></p>
-                <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
+                <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data" id="brand-form">
                     <div class="col-md-6">
                         <label for="brandName" class="form-label">Brand Name</label>
                         <input type="text" class="form-control" id="brandName" name="brandName" placeholder="Brand name">
@@ -18,10 +18,11 @@
                         <input class="form-control" type="file" id="image" name="image">
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit" onclick="uploadBrand()">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <%- include('../layouts/adminFooter.ejs') %>

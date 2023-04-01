@@ -68,5 +68,8 @@ admin_route.get('/edit-banner',bannerController.editBanner);
 admin_route.post('/edit-banner',upload.single('image'),bannerController.updateBanner)
 admin_route.post('/delete-banner',bannerController.deleteBanner);
 
+admin_route.get('/sales-report',adminController.salesReport)
+admin_route.post('/sales-report',adminController.salesPdf)
+
 module.exports = admin_route;
  

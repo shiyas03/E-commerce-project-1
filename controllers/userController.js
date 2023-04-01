@@ -32,7 +32,7 @@ const loadRegister = async (req, res) => {
         res.render('register')
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -74,7 +74,7 @@ const verifyRegister = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/500')
+        res.render('500')
     }
 }
 
@@ -84,7 +84,7 @@ const loadLogin = async (req, res) => {
         res.render('login')
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -120,13 +120,14 @@ const verifyLogin = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/500')
+        res.render('500')
     }
 }
 
 //Get home page
 const loadHome = async (req, res) => {
     try {
+
         const bannerData = await Banner.find({ status: true })
         if (req.session.userToken) {
             let walletAmount = 0;
@@ -142,6 +143,7 @@ const loadHome = async (req, res) => {
                         walletAmount = data.amount
                     }
                 })
+            req.session.wallet = walletAmount
             res.render('home', { name: req.session.userName, bannerData, walletAmount })
         } else {
             res.render('home', { bannerData });
@@ -149,7 +151,7 @@ const loadHome = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -160,6 +162,7 @@ const userLogout = async (req, res) => {
         delete req.session.userToken;
         delete req.session.userName;
         delete req.session.userId;
+        delete req.session.walletAmount
         res.redirect('/home')
     } catch (error) {
         console.log(error.message);
@@ -172,7 +175,7 @@ const loginWithOtp = async (req, res) => {
         res.render('login-with-otp')
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -227,7 +230,7 @@ const getVerifyOtp = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -256,77 +259,49 @@ const verifyOtp = async (req, res) => {
             })
     } catch (error) {
         console.log(error.message);
-        res.redirect('/500')
+        res.render('500')
     }
 }
 
 //For get all products list
 const loadProducts = async (req, res) => {
     try {
-        let walletAmount = 0;
-        if (req.session.userId) {
-            await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-                .then(async (data) => {
-                    if (!data) {
-                        const wallet = new Wallet({
-                            amount: 0,
-                            userId: req.session.userId
-                        })
-                        await wallet.save()
-                    } else {
-                        walletAmount = data.amount
-                    }
-                })
-        }
         const totalQuantity = await Products.find({ status: "Available" }).count()
         const number = Math.round((totalQuantity / 3) + 1);
         const value = req.query.value || 1;
         const category = await Category.find();
-        const sort = Number(req.query.sort);
-        const filter = req.query.filter;
-        let productData;
-        if (sort || filter) {
-            productData = await Products.aggregate([
-                {
-                    $match: {
-                        status: "Available"
-                    }
-                },
-                {
-                    $sort: {
-                        price: sort
-                    }
-                },
-            ])
-        } else {
-            productData = await Products.find({ status: "Available" }).populate('brand').populate('brand').limit(value * 3).skip((value * 3) - 3)
-        }
+        const walletAmount = req.session.wallet || 0;
+        const productData = await Products.find({ status: "Available" }).populate('brand').limit(value * 3).skip((value * 3) - 3)
         res.render('products', { productData, value, name: req.session.userName, number, category, walletAmount })
 
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
+    }
+}
+
+const filterProducts = async (req, res) => {
+    try {
+        const totalQuantity = await Products.find({ status: "Available" }).count()
+        const number = Math.round((totalQuantity / 3) + 1);
+        const value = req.query.value || 1;
+        const category = await Category.find();
+        const walletAmount = req.session.wallet || 0;
+        const filter = req.body.filter
+        const productData = await Products.aggregate([
+            { $match: { status: "Available" } }
+        ])
+        res.render('products', { productData, value, name: req.session.userName, number, category, walletAmount })
+
+    } catch (error) {
+        console.log(error.message)
     }
 }
 
 //For showing men products
 const productsForMen = async (req, res) => {
     try {
-        let walletAmount = 0;
-        if (req.session.userId) {
-            await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-                .then(async (data) => {
-                    if (!data) {
-                        const wallet = new Wallet({
-                            amount: 0,
-                            userId: req.session.userId
-                        })
-                        await wallet.save()
-                    } else {
-                        walletAmount = data.amount
-                    }
-                })
-        }
+        const walletAmount = req.session.wallet || 0;
         const value = req.query.value || 1;
         const totalQuantity = await Products.find({ $and: [{ status: "Available" }, { gender: "Men" }] }).count()
         const number = Math.round(totalQuantity / 3);
@@ -340,28 +315,14 @@ const productsForMen = async (req, res) => {
             })
     } catch (error) {
         console.log(error.message)
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
 //For showing women products
 const productsForWomen = async (req, res) => {
     try {
-        let walletAmount = 0;
-        if (req.session.userId) {
-            await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-                .then(async (data) => {
-                    if (!data) {
-                        const wallet = new Wallet({
-                            amount: 0,
-                            userId: req.session.userId
-                        })
-                        await wallet.save()
-                    } else {
-                        walletAmount = data.amount
-                    }
-                })
-        }
+        const walletAmount = req.session.wallet || 0;
         const value = req.query.value || 1;
         const totalQuantity = await Products.find({ $and: [{ status: "Available" }, { gender: "Men" }] }).count()
         const number = Math.round(totalQuantity / 3);
@@ -375,28 +336,14 @@ const productsForWomen = async (req, res) => {
             })
     } catch (error) {
         console.log(error.message)
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
 //For show products view page
 const viewProduct = async (req, res) => {
     try {
-        let walletAmount = 0;
-        if (req.session.userId) {
-            await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-                .then(async (data) => {
-                    if (!data) {
-                        const wallet = new Wallet({
-                            amount: 0,
-                            userId: req.session.userId
-                        })
-                        await wallet.save()
-                    } else {
-                        walletAmount = data.amount
-                    }
-                })
-        }
+        const walletAmount = req.session.wallet || 0;
         const productId = req.query.id;
         await Products.findOne({ _id: productId }).populate('brand')
             .then(data => {
@@ -404,50 +351,26 @@ const viewProduct = async (req, res) => {
             })
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
 //For user profile view
 const userProfile = async (req, res) => {
     try {
-        let walletAmount = 0;
-        await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-            .then(async (data) => {
-                if (!data) {
-                    const wallet = new Wallet({
-                        amount: 0,
-                        userId: req.session.userId
-                    })
-                    await wallet.save()
-                } else {
-                    walletAmount = data.amount
-                }
-            })
+        const walletAmount = req.session.wallet || 0;
         const userData = await User.findOne({ _id: req.session.userId })
         res.render('user-profile', { userData, name: req.session.userName, walletAmount })
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
 //For edit user profile details
 const editUserData = async (req, res) => {
     try {
-        let walletAmount = 0;
-        await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-            .then(async (data) => {
-                if (!data) {
-                    const wallet = new Wallet({
-                        amount: 0,
-                        userId: req.session.userId
-                    })
-                    await wallet.save()
-                } else {
-                    walletAmount = data.amount
-                }
-            })
+        const walletAmount = req.session.wallet || 0;
         await User.findOne({ _id: req.session.userId })
             .then(data => {
                 res.render('edit-profile', { userData: data, name: req.session.userName, walletAmount })
@@ -455,7 +378,7 @@ const editUserData = async (req, res) => {
             })
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -487,26 +410,14 @@ const updateUserData = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/500')
+        res.render('500')
     }
 }
 
 //For user address settings 
 const userAddress = async (req, res) => {
     try {
-        let walletAmount = 0;
-        await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-            .then(async (data) => {
-                if (!data) {
-                    const wallet = new Wallet({
-                        amount: 0,
-                        userId: req.session.userId
-                    })
-                    await wallet.save()
-                } else {
-                    walletAmount = data.amount
-                }
-            })
+        const walletAmount = req.session.wallet || 0;
         const addressData = await User.findOne({ _id: req.session.userId }, { address: 1 })
         if (addressData) {
             res.render('user-address', { addressData: addressData.address, name: req.session.userName, walletAmount })
@@ -515,7 +426,7 @@ const userAddress = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -523,44 +434,38 @@ const userAddress = async (req, res) => {
 const uploadAddress = async (req, res) => {
     try {
         const { firstName, secondName, email, mobileNumber, country, state, address, landMark, pincode } = req.body
-        if (!firstName.trim() || !secondName.trim() || !email.trim() || !mobileNumber.trim() || isNaN(mobileNumber) ||
-            !country.trim() || !state.trim() || !address.trim() || !landMark.trim() || !pincode.trim() || isNaN(pincode)) {
-            const userData = await User.findOne({ _id: req.session.userId })
-            res.render('user-address', { error: "Check all fields", addressData: userData.address, name: req.session.userName, })
-        } else {
-            const userData = await User.findOne({ _id: req.session.userId });
-            //checking the user already have address or not
-            if (userData) {
-                //pushing address into address array
-                const addNewAddress = await User.updateOne({ _id: req.session.userId },
-                    {
-                        $push: {
-                            address: {
-                                firstName: firstName,
-                                secondName: secondName,
-                                email: email,
-                                number: mobileNumber,
-                                country: country,
-                                state: state,
-                                address: address,
-                                landMark: landMark,
-                                pincode: pincode
-                            }
+        const userData = await User.findOne({ _id: req.session.userId });
+        if (userData) {
+            //pushing address into address array
+            const addNewAddress = await User.updateOne({ _id: req.session.userId },
+                {
+                    $push: {
+                        address: {
+                            firstName: firstName,
+                            secondName: secondName,
+                            email: email,
+                            number: mobileNumber,
+                            country: country,
+                            state: state,
+                            address: address,
+                            landMark: landMark,
+                            pincode: pincode
                         }
-                    })
-                const checkout = req.query.checkout;
-                //checking user added is from chekout page or user address page
-                if (addNewAddress && checkout) {
-                    res.redirect('/product-checkout')
-                } else {
-                    res.redirect('/user-address')
-                }
+                    }
+                })
+            const checkout = req.query.checkout;
+            //checking user added is from chekout page or user address page
+            if (addNewAddress && checkout) {
+                res.redirect('/product-checkout')
+            } else {
+                res.redirect('/user-address')
             }
         }
 
+
     } catch (error) {
         console.log(error.message);
-        res.redirect('/500')
+        res.render('500')
     }
 }
 
@@ -581,19 +486,7 @@ const deleteAddress = async (req, res) => {
 //For edit user address
 const editAddress = async (req, res) => {
     try {
-        let walletAmount = 0;
-        await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
-            .then(async (data) => {
-                if (!data) {
-                    const wallet = new Wallet({
-                        amount: 0,
-                        userId: req.session.userId
-                    })
-                    await wallet.save()
-                } else {
-                    walletAmount = data.amount
-                }
-            })
+        const walletAmount = req.session.wallet || 0;
         const userData = await User.findOne({ _id: req.session.userId })
         if (userData) {
             const addressId = req.query.addressId;
@@ -609,11 +502,12 @@ const editAddress = async (req, res) => {
 //For update edited address
 const updateAddress = async (req, res) => {
     try {
+        console.log("working")
         const { firstName, secondName, email, mobileNumber, country, state, address, landMark, pincode, addressId } = req.body
         if (!firstName.trim() || !secondName.trim() || !email.trim() || !mobileNumber.trim() || isNaN(mobileNumber) ||
             !country.trim() || !state.trim() || !address.trim() || !landMark.trim() || !pincode.trim() || isNaN(pincode)) {
             const addressData = await User.findOne({ "address._id": addressId }, { "address.$": 1 });
-            res.render('edit-address', { error: "Some error, try again", addressData: addressData.address, name: req.session.userName, })
+            //res.render('edit-address', { error: "Some error, try again", addressData: addressData.address, name: req.session.userName, })
         } else {
             const updatedData = {
                 firstName: firstName,
@@ -627,12 +521,11 @@ const updateAddress = async (req, res) => {
                 pincode: pincode
             }
 
-            const updatedAddress = await User.updateOne({ "address._id": addressId }, {
+            await User.updateOne({ "address._id": addressId }, {
                 $set: {
                     "address.$": updatedData
                 }
             });
-
             if (!req.session.checkout) {
                 res.redirect('/user-address')
             } else {
@@ -642,7 +535,7 @@ const updateAddress = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/500')
+        res.render('500')
     }
 }
 
@@ -652,7 +545,7 @@ const resetPassword = async (req, res) => {
         res.render('reset-otp')
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -681,12 +574,12 @@ const resetPasswordConfirm = async (req, res) => {
     }
 }
 
-const resetOtp = async(req,res)=>{
+const resetOtp = async (req, res) => {
     try {
         res.render('verify-reset-otp')
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -717,7 +610,7 @@ const newPassword = async (req, res) => {
         res.render('new-password')
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -728,20 +621,20 @@ const verifyNewPassword = async (req, res) => {
         const password = req.body.password;
         const bcryptPassword = await securePassword(password);
         await User.findOneAndUpdate({ _id: userId }, { $set: { password: bcryptPassword } })
-        .then((data)=>{
-            if(data){
-                res.json({ success: true })
-            }else{
-                res.json({ message : "Error Occured" })
-            }
-        })
-        
+            .then((data) => {
+                if (data) {
+                    res.json({ success: true })
+                } else {
+                    res.json({ message: "Error Occured" })
+                }
+            })
+
     } catch (error) {
         console.log(error.message);
     }
 }
 
-const errorOne = async(req,res)=>{
+const errorOne = async (req, res) => {
     try {
         res.render('404')
     } catch (error) {
@@ -749,7 +642,7 @@ const errorOne = async(req,res)=>{
     }
 }
 
-const errorTwo = async(req,res)=>{
+const errorTwo = async (req, res) => {
     try {
         res.render('500')
     } catch (error) {
@@ -777,6 +670,7 @@ module.exports = {
     viewProduct,
     productsForMen,
     productsForWomen,
+    filterProducts,
 
     userProfile,
     editUserData,

@@ -21,19 +21,21 @@
                 <!--Here you have to put sort filter links-->
 
                 <div class="d-flex justify-content-end align-items-center mt-4 mt-lg-0 flex-column flex-md-row">
-
                     <!-- Filter Trigger-->
-                    <button
-                        class="btn bg-light p-3 me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto "
-                        type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters"
-                        aria-controls="offcanvasFilters">
-                        <i class="ri-equalizer-line me-2"></i> Filters
-                    </button>
+                    <div class="m-2">
+                        <button
+                            class="btn bg-light p-3 me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto "
+                            type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters"
+                            aria-controls="offcanvasFilters">
+                            <i class="ri-equalizer-line me-2"></i> Filters
+                        </button>
+                    </div>
                     <!-- / Filter Trigger-->
 
                     <!-- Sort Options-->
-                    <select class="form-select form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7" id="sort-product">
-                        <option value="">Sort By</option>
+                    <select class="form-select form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7" id="sort-product"
+                        style="width: 100px;">
+                        <option value="">Sort</option>
                         <option value="1">Hi Low</option>
                         <option value="-1">Low Hi</option>
                     </select>
@@ -44,7 +46,6 @@
             <!-- Products-->
             <div class="row m-auto">
                 <% productData.forEach((data)=>{ %>
-
                     <div class="col-12 col-sm-6 col-lg-4 mt-3">
                         <!-- Card Product-->
                         <div class="card position-relative overflow-hidden transparent">
@@ -145,6 +146,7 @@
         <div class="offcanvas-body">
             <div class="d-flex flex-column justify-content-between w-100">
                 <form id="filter-form" action="">
+                    
                     <!-- Filters-->
                     <% if(category){ category.forEach(data=>{ %>
                         <div class="form-check">
@@ -155,7 +157,7 @@
                             </label>
                         </div>
                         <% })} %>
-
+ 
                             <!-- Filter Button-->
                             <div class="pt-3">
                                 <button type="submit"
@@ -169,20 +171,29 @@
     </div>
 
     <script>
-        const selectElement = document.getElementById("sort-product");
-        selectElement.addEventListener("change", function (event) {
+        const sortElement = document.getElementById("sort-product");
+        let selectedOptionValue;
+        sortElement.addEventListener("change", function (event) {
             const selectedOptionValue = event.target.value;
             location.href = '/products?sort=' + selectedOptionValue
+            
         });
 
         const myForm = document.getElementById("filter-form");
+        let selectedValues
         myForm.addEventListener("submit", function (event) {
             event.preventDefault(); // prevent the form from submitting
             const checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
             const selectedValues = Array.from(checkboxes).map(checkbox => checkbox.value);
-            location.href = '/products?filter='+ selectedValues;
+            //location.href = '/products?filter=' + selectedValues;
+            fetch('/products',{
+                method : 'post',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify(selectedValues)
+            })
         });
-
     </script>
 
     <%- include('../layouts/userFooter.ejs') %>

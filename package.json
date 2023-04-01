@@ -18,6 +18,7 @@
     "express-session": "^1.17.3",
     "file-system": "^1.2.2",
     "fs": "^0.0.1-security",
+    "html-pdf": "^3.0.1",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.0.0",
     "mongoose": "^7.0.1",
@@ -29,6 +30,6 @@
     "razorpay": "^2.8.6",
     "sharp": "^0.32.0",
     "sweetalert2": "^11.4.8",
-    "twilio": "^4.7.2"
+    "twilio": "^4.9.0"
   }
 }

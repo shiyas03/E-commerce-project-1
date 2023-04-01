@@ -9,7 +9,7 @@ const bannerList = async (req, res) => {
             })
     } catch (error) {
         console.log(error.message)
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -38,7 +38,7 @@ const uploadBanner = async (req, res) => {
         res.redirect('/admin/banners-list')
     } catch (error) {
         console.log(error.message)
-        res.redirect('/500')
+        res.render('500')
     }
 }
 
@@ -75,7 +75,7 @@ const updateBanner = async(req,res)=>{
         res.redirect('/admin/banners-list')
     } catch (error) {
         console.log(error.message);
-        res.redirect('/500')
+        res.render('500')
     }
 }
 

@@ -1,0 +1,168 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+    <!-- Main Section-->
+    <section class="mt-0 ">
+        <!-- Page Content Goes Here -->
+
+        <!-- Breadcrumbs-->
+        <div class="bg-dark py-6">
+            <div class="container-fluid">
+                <nav class="m-0" aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item breadcrumb-light"><a href="/home">Home</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- / Breadcrumbs-->
+
+        <div class="container mt-5 mb-5">
+
+            <!-- Product Top Section-->
+            <div class="row">
+                <div class="col-12 col-md-6 col-xl-6"> 
+                    <!-- Product Images-->
+                    <div class="row g-3" data-aos="fade-right">
+                        <div class="col-12 img-zoom-container">
+                            <img class="img-fluid" src="/images/<%= productData.images[0] %>"
+                                alt="HTML Bootstrap Template by Pixel Rocket" id="myimage" width="600px" height="350px">
+                                
+                        </div>
+                        <% productData.images.forEach((data,index)=>{ %>
+                            <div class="col-12 col-lg-3">
+                                <img class="img-fluid" data-zoomable src="/images/<%= data %>"
+                                    alt="HTML Bootstrap Template by Pixel Rocket">
+                            </div>
+                            <% }) %>
+                    </div>
+
+                </div>
+                <!-- /Product Images-->
+
+                
+                <!-- Product Information-->
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div id="myresult" class="img-zoom-result"></div>
+                    <div class="sticky-top top-5">
+                        <div class="pb-3" data-aos="fade-in" >
+
+                            <% if(productData){ %>
+                                <h1 class="mb-1 fs-2 fw-bold">
+                                    <%= productData.productName %>
+                                </h1>
+                                <p class="fs-4 m-0">
+                                    <%= productData.brand.name %>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="fs-4 m-0">₹<%= productData.salePrice %>&nbsp <small><s>
+                                                    <%= productData.price %>
+                                                </s></small></p>
+                                </div>
+                                <button
+                                    class="btn btn-white w-100 mt-4 mb-0 hover-lift-sm hover-boxshadow border border-dark p-2"
+                                    disabled>
+                                    <%= productData.status %>
+                                </button>
+                                    <a class="btn btn-dark w-100 mt-2 mb-0 hover-lift-sm hover-boxshadow p-3"
+                                        href="/add-to-cart/?id=<%= productData._id %>">Add To Shopping Cart</a>
+                                            <!-- Product Highlights-->
+                                            <div class="my-5">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="text-center px-2">
+                                                            <i class="ri-24-hours-line ri-2x"></i>
+                                                            <small class="d-block mt-1">Next-day Delivery</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="text-center px-2">
+                                                            <i class="ri-secure-payment-line ri-2x"></i>
+                                                            <small class="d-block mt-1">Secure Checkout</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="text-center px-2">
+                                                            <i class="ri-service-line ri-2x"></i>
+                                                            <small class="d-block mt-1">Free Returns</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- / Product Highlights-->
+
+                                            <!-- Product Accordion -->
+                                            <div class="accordion" id="accordionProduct">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingOne">
+                                                        <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                            aria-expanded="true" aria-controls="collapseOne">
+                                                            Product Details
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                                        aria-labelledby="headingOne" data-bs-parent="#accordionProduct">
+                                                        <div class="accordion-body">
+                                                            <p class="m-0">
+                                                                <%= productData.description %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingThree">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                            aria-expanded="false" aria-controls="collapseThree">
+                                                            Delivery & Returns
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingThree"
+                                                        data-bs-parent="#accordionProduct">
+                                                        <div class="accordion-body">
+                                                            <ul class="list-group list-group-flush">
+                                                                <li
+                                                                    class="list-group-item d-flex border-0 row g-0 px-0">
+                                                                    <span class="col-4 fw-bolder">Delivery</span>
+                                                                    <span class="col-7 offset-1">Standard delivery free
+                                                                        for orders
+                                                                        over
+                                                                        ₹999</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex border-0 row g-0 px-0">
+                                                                    <span class="col-4 fw-bolder">Returns</span>
+                                                                    <span class="col-7 offset-1">7 day return period.
+                                                                        See our <a class="text-link-border"
+                                                                            href="#">terms &
+                                                                            conditions.</a></span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- / Product Accordion-->
+                                            <p class="mt-5 ">SKU Code : <%= productData.skuCode %>
+                                            </p>
+                                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Product Information-->
+            </div>
+            <!-- / Product Top Section-->
+
+        </div>
+
+
+        <!-- /Page Content -->
+    </section>
+    <!-- / Main Section-->
+
+    <script>
+        imageZoom("myimage", "myresult");
+    </script>
+
+    <%- include('../layouts/userFooter.ejs') %>

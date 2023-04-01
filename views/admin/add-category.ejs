@@ -1,37 +1,68 @@
 <%- include('../layouts/adminHeader.ejs') %>
- 
+
 
     <div class="container mt-3">
         <div class="row justify-content-center bg-light">
-            <div class="col-lg-10 m-5"> 
-                <p class="text-danger text-center"><%=typeof fieldError !== 'undefined' ? fieldError : '' %></p>
-                <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
+            <div class="col-lg-10 m-5">
+                <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data" id="category-form">
                     <div class="col-md-6">
                         <label for="categoryName" class="form-label">Category Name</label>
-                        <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="category name">
-                        <p class="text-danger"><%= typeof nameError !=='undefined' ? nameError : ''  %></p>
+                        <input type="text" class="form-control" id="categoryName" name="categoryName"
+                            placeholder="category name">
+                        <p class="text-danger">
+                            <%= typeof nameError !=='undefined' ? nameError : '' %>
+                        </p>
                     </div>
                     <div class="col-md-6">
                         <label for="for" class="form-label">For</label>
                         <select class="form-select" id="for" name="gender">
-                            <option selected disabled value="">Choose...</option>
+                            <option selected disabled>Choose...</option>
                             <option>Men</option>
                             <option>Women</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" rows="3" name="description" placeholder="more about category..."></textarea>
+                        <textarea class="form-control" id="description" rows="3" name="description"
+                            placeholder="more about category..."></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Image Upload</label>
                         <input class="form-control" type="file" id="image" name="image">
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit" onclick="uploadCategory()">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        const selectElement = document.getElementById("for");
+        let selectedOptionValue;
+        selectElement.addEventListener("change", function (event) {
+            selectedOptionValue = event.target.value;
+        })
+
+        function uploadCategory() {
+            const categoryForm = document.querySelector("#category-form")
+            categoryForm.addEventListener('submit', event => {
+                event.preventDefault()
+                const name = document.getElementById('categoryName').value.trim()
+                const description = document.getElementById('description').value.trim()
+                const image = document.getElementById('image').value
+                if (!name || !selectedOptionValue || !description || !image) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Entries!',
+                    })
+                } else {
+                    categoryForm.submit()
+                }
+            })
+        }
+
+    </script>
+
     <%- include('../layouts/adminFooter.ejs') %>

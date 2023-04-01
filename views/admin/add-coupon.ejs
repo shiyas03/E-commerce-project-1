@@ -7,7 +7,7 @@
                 <p class="text-danger text-center">
                     <%=typeof error !=='undefined' ? error : '' %>
                 </p>
-                <form class="row g-3 needs-validation" method="post">
+                <form class="row g-3 needs-validation" method="post" id="coupon-form">
                     <div class="col-md-6">
                         <label for="couponCode" class="form-label">Coupon Code</label>
                         <input type="text" class="form-control" id="couponCode" name="code"
@@ -71,7 +71,8 @@
                         <input type="number" class="form-control" id="quantiy" name="quantity"
                             value="<%= existingData.quantity %>">
                     </div>
-                    <input type="text" value="<%=typeof existingData._id !== 'undefined' ? existingData._id : '' %>" name="id" hidden>
+                    <input type="text" value="<%=typeof existingData._id !== 'undefined' ? existingData._id : '' %>"
+                        name="id" hidden>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
@@ -83,8 +84,9 @@
 
     <script>
         const selectElement = document.getElementById("type-coupon");
+        let selectedOptionValue;
         selectElement.addEventListener("change", function (event) {
-            const selectedOptionValue = event.target.value;
+            selectedOptionValue = event.target.value;
             if (selectedOptionValue == "Flat") {
                 document.getElementById("maxDiscount").disabled = true;
             } else {
@@ -92,5 +94,7 @@
                 maxDiscountInput.removeAttribute('disabled');
             }
         });
+
+        
     </script>
     <%- include('../layouts/adminFooter.ejs') %>

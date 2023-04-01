@@ -37,7 +37,9 @@ const productDetails = new mongoose.Schema({
     },
     orderedDate : {
         type : Date,
-        default : Date.now 
+    },
+    deliveryDate : {
+        type : Date,
     },
     return : {
         type : Boolean,

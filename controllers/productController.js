@@ -26,7 +26,7 @@ const loadProducts = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -39,7 +39,7 @@ const loadAddForm = async (req, res) => {
         res.render('add-products', { categoryData, brandData, randomString })
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -49,10 +49,11 @@ const uploadProduct = async (req, res) => {
         const { productName, skuCode, brand, category, gender, price, salePrice, quantity, status, description } = req.body;
         if (!productName.trim() || !skuCode.trim() || isNaN(price) || isNaN(quantity) ||
             !description.trim() || !brand || !category || !status || !gender || !req.files) {
+            const randomString = generateRandomString(12);
             const categoryData = await Category.find({}, { name: 1 })
             const brandData = await Brands.find({}, { name: 1 })
             const enteredData = req.body
-            res.render('add-products', { nameField: "Check All Fields Properly", categoryData, brandData, enteredData })
+            res.render('add-products', { nameField: "Check All Fields Properly", categoryData, brandData, enteredData, randomString })
         } else {
             const products = new Products({
                 productName: productName,
@@ -68,7 +69,6 @@ const uploadProduct = async (req, res) => {
             })
             const productSave = await products.save()
             if (productSave) {
-                console.log(productSave)
                 for (let i = 0; i < req.files.length; i++) {
                     const imagesUpload = req.files[i].filename
                     const originalPath = req.files[i].path
@@ -127,7 +127,7 @@ const editProduct = async (req, res) => {
         res.render('edit-product', { productData, categoryData, brandData, images })
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -229,7 +229,7 @@ const viewProduct = async (req, res) => {
         res.render('view-product')
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -245,7 +245,7 @@ const loadCategory = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.redirect('/404')
+        res.render('404')
     }
 }
 
@@ -262,28 +262,25 @@ const loadAddCategory = async (req, res) => {
 const uploadCategory = async (req, res) => {
     try {
         const { categoryName, description } = req.body;
-        if (!categoryName.trim() || !description.trim() || !req.file) {
-            res.render('add-category', { fieldError: "Some fields are empty" });
+        const nameFind = await Category.findOne({ name: { $regex: new RegExp(categoryName, 'i') } })
+        if (nameFind) {
+            res.render('add-category', { nameError: "Category already Exist" });
         } else {
-            const nameFind = await Category.findOne({ name: { $regex: new RegExp(categoryName, 'i') } })
-            if (nameFind) {
-                res.render('add-category', { nameError: "Category already Exist" });
+            let category = new Category({
+                name: req.body.categoryName,
+                gender: req.body.gender,
+                description: req.body.description,
+                image: req.file.filename,
+                status: "Active"
+            })
+            const categoryData = await category.save()
+            if (categoryData) {
+                res.redirect('/admin/category-list')
             } else {
-                let category = new Category({
-                    name: req.body.categoryName,
-                    gender: req.body.gender,
-                    description: req.body.description,
-                    image: req.file.filename,
-                    status: "Active"
-                })
-                const categoryData = await category.save()
-                if (categoryData) {
-                    res.redirect('/admin/category-list')
-                } else {
-                    res.redirect()
-                }
+                res.redirect()
             }
         }
+
     } catch (error) {
         console.log(error.message);
     }
@@ -294,7 +291,6 @@ const changeStatusCategory = async (req, res) => {
     try {
         const id = req.query.id;
         const status = req.query.status
-        const data = await Category.findOneAndUpdate({ _id: id }, { status: status })
         if (status === "Active") {
             await Products.updateMany({ category: id }, { $set: { status: "Available" } })
             res.redirect('/admin/category-list')

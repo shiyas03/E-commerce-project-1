@@ -17,7 +17,6 @@ const isLogout = async(req,res,next)=>{
         }else{
             next();
         }
-
     } catch (error) {
         console.log(error.message);
     }

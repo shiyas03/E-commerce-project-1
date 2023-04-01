@@ -4,6 +4,11 @@ const User = require('../models/userModel')
 const Orders = require('../models/orderModel')
 const Coupon = require('../models/couponModel')
 
+const pdf = require('html-pdf')
+const path = require('path')
+const fs = require('fs')
+const ejs = require('ejs')
+
 const jwt = require('jsonwebtoken');
 
 //bcrypt password
@@ -57,15 +62,15 @@ const verifyAdmin = async (req, res) => {
 const loadDashboard = async (req, res) => {
     try {
         const users = await User.find()
-        const blockedUser = users.filter(data=>data.access == false)
+        const blockedUser = users.filter(data => data.access == false)
         const ordersData = await Orders.find().populate("orderDetails").populate("orderDetails.productId")
         const mergedProductIds = ordersData.flatMap(order => order.orderDetails.map(detail => detail.productId));
         const returned = ordersData.flatMap(order => order.orderDetails.filter(detail => detail.status == 'Returned'));
         const sales = ordersData.flatMap(order => order.orderDetails.filter(detail => detail.status == 'Delivered')).map(detail => detail.totalSalePrice)
         const pending = ordersData.flatMap(order => order.orderDetails.filter(detail => detail.status !== 'Delivered' && detail.status !== "Returned")).map(detail => detail.totalSalePrice)
-        const total = sales.reduce((acc,cur)=>{return acc+=cur})
-        const upcoming = pending.reduce((acc,cur)=>{return acc+=cur})
-        res.render('dashboard', { users, orders: mergedProductIds.length, blocked : blockedUser.length, returned: returned.length, total, upcoming })
+        const total = sales.reduce((acc, cur) => { return acc += cur })
+        const upcoming = pending.reduce((acc, cur) => { return acc += cur })
+        res.render('dashboard', { users, orders: mergedProductIds.length, blocked: blockedUser.length, returned: returned.length, total, upcoming })
     } catch (error) {
         console.log(error.message);
     }
@@ -95,8 +100,14 @@ const userAccess = async (req, res) => {
     try {
         const id = req.query.id;
         const access = req.query.access;
-        await User.updateOne({ _id: id }, { $set: { access: access } })
+        await User.findOneAndUpdate({ _id: id }, { $set: { access: access } })
             .then(data => {
+                console.log(req.session)
+                if (access === false) {
+                    delete req.session.userId
+                } else {
+                    req.session.userId = id
+                }
                 res.redirect('/admin/users-list')
             })
 
@@ -112,15 +123,12 @@ const ordersList = async (req, res) => {
         const orderDetails = ordersData.map(order => order.orderDetails).flat();
         if (ordersData) {
             const dates = orderDetails.map(data => {
-                const orderedDate = new Date(data.orderedDate);
-                const newDate = new Date(orderedDate.getTime()); // create a copy of the orderedDate object
-                newDate.setDate(newDate.getDate() + 7); // add 7 days to the copied date
-                const orderDate = orderedDate.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata' });
-                const deliverydate = newDate.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata' });
+                const orderDate = data.orderedDate.toLocaleDateString();
+                const deliverydate = data.deliveryDate.toLocaleDateString();
                 return { originalDate: orderDate, newDate: deliverydate };
             });
             // orderDatas.map((data)=>console.log(data.productId.productName))
-            res.render('orders-list', { orderDatas: orderDetails, name: req.session.userName, dates })
+            res.render('orders-list', { orderDatas: orderDetails.reverse(), name: req.session.userName, dates })
         } else {
             res.render('orders-list', { empty: "No orders" })
         }
@@ -133,8 +141,8 @@ const statusOrder = async (req, res) => {
     try {
         const { orderId, status } = req.body
         const orderStatus = await Orders.updateOne({ "orderDetails._id": orderId }, { $set: { "orderDetails.$.status": status } })
-        if (orderStatus) {
-            await Orders.updateOne({ "orderDetails.status": "Delivered" }, { $set: { "orderDetails.$.paymentStatus": "Paid" } })
+        if (orderStatus.modifiedCount !== 0) {
+            await Orders.updateMany({ "orderDetails.status": "Delivered" }, { $set: { "orderDetails.$.paymentStatus": "Paid" } })
             res.json({ success: true })
         }
     } catch (error) {
@@ -260,7 +268,63 @@ const couponStatus = async (req, res) => {
     }
 }
 
+const salesReport = async (req, res) => {
+    try {
+        const ordersData = await Orders.find().populate("orderDetails.productId").populate("orderDetails.userId")
+        const orderDetails = ordersData.map(order => order.orderDetails).flat();
+        const orders = orderDetails.filter(data => data.status === "Delivered")
+        const dates = orderDetails.map(data => {
+            const orderDate = data.orderedDate.toLocaleDateString();
+            const deliverydate = data.deliveryDate.toLocaleDateString();
+            return { originalDate: orderDate, newDate: deliverydate };
+        });
+        res.render('sales-report', { orders, dates })
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
+const salesPdf = async (req, res) => {
+    try {
+        const start = req.body.start
+        const end = req.body.end
+        const orders = await Orders.find().populate("orderDetails.productId").populate("orderDetails.userId")
+        const orderDetails = orders.map(order => order.orderDetails).flat();
+        const dates = orderDetails.map(data => {
+            const orderDate = data.orderedDate.toLocaleDateString();
+            const deliverydate = data.deliveryDate.toLocaleDateString();
+            return { originalDate: orderDate, newDate: deliverydate };
+        });
+        const orderSuccess = orders.map(data => data.orderDetails.filter(data => {
+            const date = data.deliveryDate.toISOString().substr(0, 10)
+            return data.status === "Delivered" && date >= start && date <= end
+        })).flat()
+        const data = {
+            orderSuccess: orderSuccess
+        }
+        const filePath = path.resolve(__dirname, '../views/admin/salesPdf.ejs')
+        const htmlString = fs.readFileSync(filePath).toString()
+        const ejsData = ejs.render(htmlString, { data : data.orderSuccess, dates, start,end})
+        let options = {
+            format: 'A4',
+            orientation: "portrait",
+            border: "10mm",
+            html: htmlString
+        }
+        pdf.create(ejsData, options).toStream((err, stream) => {
+            if (err) {
+                console.log(err);
+            }
+            res.set({
+                'Content-Type': 'application/pdf',
+                'Content-Disposition': 'attachment; filename="sales-report.pdf"'
+            });
+            stream.pipe(res);
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 module.exports = {
     loadLogin,
@@ -281,5 +345,6 @@ module.exports = {
     updateCoupon,
     couponStatus,
 
-
+    salesReport,
+    salesPdf,
 }
