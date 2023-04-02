@@ -227,10 +227,11 @@ const userOrders = async (req, res) => {
             const { orderDetails } = ordersData
             //formating date and creating delivery date
             const dates = orderDetails.map(data => {
-                const orderDate = data.orderedDate.toDateString();
-                const deliverydate = data.deliveryDate.toDateString();
+                const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                const orderDate = data.orderedDate ? new Date(data.orderedDate).toLocaleString('en-GB', options) : "";
+                const deliverydate = data.deliveryDate ? new Date(data.deliveryDate).toLocaleString('en-GB', options) : "";
                 return { originalDate: orderDate, newDate: deliverydate };
-            });
+            });         
             //const productsData = await Products.find({ _id: { $in: productsId } }).populate('brand')
             res.render('user-orders', { name: req.session.userName, dates, ordersData: orderDetails.reverse(), walletAmount })
         } else {

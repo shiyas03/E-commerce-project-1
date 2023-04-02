@@ -4,7 +4,7 @@ const Products = require('../models/productModel');
 const Banner = require('../models/bannerModel')
 const Category = require('../models/categoryModel')
 const Wallet = require('../models/walletModel')
-const Wishlist = require('../models/wishlistModel')
+const Brand = require('../models/brandModel')
 const mongoose = require('mongoose');
 
 const bcrypt = require("bcrypt");
@@ -129,8 +129,9 @@ const verifyLogin = async (req, res) => {
 //Get home page
 const loadHome = async (req, res) => {
     try {
-
         const bannerData = await Banner.find({ status: true })
+        const brands = await Brand.find()
+        const products = await Products.find({status : "Available"})
         if (req.session.userToken) {
             let walletAmount = 0;
             await Wallet.findOne({ userId: req.session.userId }, { amount: 1, _id: 0 })
@@ -146,9 +147,9 @@ const loadHome = async (req, res) => {
                     }
                 })
             req.session.wallet = walletAmount
-            res.render('home', { name: req.session.userName, bannerData, walletAmount })
+            res.render('home', { name: req.session.userName, bannerData, walletAmount, brands, products })
         } else {
-            res.render('home', { bannerData });
+            res.render('home', { bannerData, brands, products });
         }
 
     } catch (error) {
@@ -425,6 +426,7 @@ const updateUserData = async (req, res) => {
                     }
                 })
                 if (updatedData) {
+                    req.session.userName = userName;
                     res.redirect('/user-profile')
                 } else {
                     console.log("Not uploading");
@@ -659,22 +661,6 @@ const verifyNewPassword = async (req, res) => {
     }
 }
 
-const errorOne = async (req, res) => {
-    try {
-        res.render('404')
-    } catch (error) {
-        console.log(error.message)
-    }
-}
-
-const errorTwo = async (req, res) => {
-    try {
-        res.render('500')
-    } catch (error) {
-        console.log(error.message)
-    }
-}
-
 module.exports = {
     loadRegister,
     verifyRegister,
@@ -713,6 +699,4 @@ module.exports = {
     newPassword,
     verifyNewPassword,
 
-    errorOne,
-    errorTwo,
 }

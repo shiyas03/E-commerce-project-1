@@ -51,24 +51,24 @@ admin_route.post('/edit-brand', upload.single('image'), productController.update
 admin_route.get('/users-list', adminController.loadUsers);
 admin_route.get('/user-access', adminController.userAccess);
 
-admin_route.get('/orders-list', adminController.ordersList); 
-admin_route.post('/status-order',adminController.statusOrder);
+admin_route.get('/orders-list', checkLogin, adminController.ordersList); 
+admin_route.post('/status-order', checkLogin,adminController.statusOrder);
 
-admin_route.get('/coupons-list',adminController.couponList);
-admin_route.get('/add-coupon',adminController.addCoupon);
+admin_route.get('/coupons-list', checkLogin,adminController.couponList);
+admin_route.get('/add-coupon', checkLogin,adminController.addCoupon);
 admin_route.post('/add-coupon',adminController.uploadCoupon);
-admin_route.get('/edit-coupon',adminController.loadEditCoupon);
+admin_route.get('/edit-coupon', checkLogin,adminController.loadEditCoupon);
 admin_route.post('/edit-coupon',adminController.updateCoupon);
-admin_route.get('/coupon-status',adminController.couponStatus)
+admin_route.get('/coupon-status', checkLogin,adminController.couponStatus)
 
-admin_route.get('/banners-list',bannerController.bannerList);
-admin_route.get('/add-banner',bannerController.addBanner);
+admin_route.get('/banners-list', checkLogin,bannerController.bannerList);
+admin_route.get('/add-banner', checkLogin,bannerController.addBanner);
 admin_route.post('/add-banner',upload.single('image'),bannerController.uploadBanner);
-admin_route.get('/edit-banner',bannerController.editBanner);
+admin_route.get('/edit-banner', checkLogin,bannerController.editBanner);
 admin_route.post('/edit-banner',upload.single('image'),bannerController.updateBanner)
 admin_route.post('/delete-banner',bannerController.deleteBanner);
 
-admin_route.get('/sales-report',adminController.salesReport)
+admin_route.get('/sales-report', checkLogin,adminController.salesReport)
 admin_route.post('/sales-report',adminController.salesPdf)
 
 module.exports = admin_route;

@@ -393,6 +393,7 @@ const loadAddBrand = async (req, res) => {
 //For upload brands into db
 const uploadBrand = async (req, res) => {
     try {
+        
         const brands = new Brands({
             name: req.body.brandName,
             description: req.body.description,

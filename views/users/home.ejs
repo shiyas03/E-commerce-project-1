@@ -28,35 +28,191 @@
             "clickable": true
             } 
           }'>
-          <div class="swiper-wrapper">
-            <% bannerData.forEach(data => { %>
-              <!-- Slide -->
-              <div class="swiper-slide position-relative h-100">
-                <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
-                  <div class="w-100 h-100 bg-img-cover bg-pos-center" data-swiper-parallax="-100" style="background-image: url('/images/<%= data.image %>'); will-change: transform;"></div>
-                </div>
-                <div class="container position-relative z-index-10 h-100 d-flex flex-column justify-content-center">
-                  <p class="text-white mb-0" data-swiper-parallax="-100"><%= data.subHeading %></p>
-                  <h2 class="display-3 fw-bold text-uppercase text-white" data-swiper-parallax="100">
-                    <span class="text-outline"><%= data.heading %></span>
-                  </h2>
-                  <div data-swiper-parallax-y="-25">
-                    <a href="/<%= data.buttonLink %>" class="text-uppercase text-decoration-none text-white" role="button"><%= data.buttonText %></a>
-                  </div>
+        <div class="swiper-wrapper">
+          <% bannerData.forEach(data=> { %>
+            <!-- Slide -->
+            <div class="swiper-slide position-relative h-100">
+              <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
+                <div class="w-100 h-100 bg-img-cover bg-pos-center" data-swiper-parallax="-100"
+                  style="background-image: url('/images/<%= data.image %>'); will-change: transform;"></div>
+              </div>
+              <div class="container position-relative z-index-10 h-100 d-flex flex-column justify-content-center">
+                <p class="text-white mb-0" data-swiper-parallax="-100">
+                  <%= data.subHeading %>
+                </p>
+                <h2 class="display-3 fw-bold text-uppercase text-white" data-swiper-parallax="100">
+                  <span class="text-outline">
+                    <%= data.heading %>
+                  </span>
+                </h2>
+                <div data-swiper-parallax-y="-25">
+                  <a href="/<%= data.buttonLink %>" class="text-uppercase text-decoration-none text-white"
+                    role="button">
+                    <%= data.buttonText %>
+                  </a>
                 </div>
               </div>
-              <!-- /Slide -->
+            </div>
+            <!-- /Slide -->
             <% }) %>
-          </div>
-          
-
+        </div>
         <div class="swiper-pagination swiper-pagination-bullet-light"></div>
       </div>
       <!-- / Swiper Info-->
     </section>
     <!--/ Top Banner-->
+    <!-- Featured Brands-->
+    <div class="brand-section container-fluid" data-aos="fade-in">
+      <div class="bg-overlay-sides-white-to-transparent bg-white py-5 py-md-7">
+        <section class="marquee marquee-hover-pause">
+          <div class="marquee-body">
+            <% brands.forEach(data=>{ %>
+              <div class="marquee-section animation-marquee-50">
+                <div class="mx-3 mx-lg-5 f-w-24">
+                  <a class="d-block" href="">
+                    <picture>
+                      <img class="img-fluid d-table mx-auto" src="/images/<%= data.image %>" alt="jhghg">
+                    </picture>
+                  </a>
+                </div>
+              </div>
+              <% }) %>
+                <% brands.forEach(data=>{ %>
+                  <div class="marquee-section animation-marquee-50">
+                    <div class="mx-3 mx-lg-5 f-w-24">
+                      <a class="d-block" href="">
+                        <picture>
+                          <img class="img-fluid d-table mx-auto" src="/images/<%= data.image %>" alt="jhghg">
+                        </picture>
+                      </a>
+                    </div>
+                  </div>
+                  <% }) %>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!--/ Featured Brands-->
 
+    <div class="container-fluid">
+      <!-- Homepage Intro-->
+      <div class="position-relative row my-lg-7 pt-5 pt-lg-0 g-8">
+        <div class="bg-text bottom-0 start-0 end-0" data-aos="fade-up">
+          <h2 class="bg-text-title opacity-10"><span class="text-outline-dark">Trade</span>row</h2>
+        </div>
+        <div class="col-12 col-md-6 position-relative z-index-20 mb-7 mb-lg-0" data-aos="fade-right">
+          <p class="text-muted title-small">Welcome</p>
+          <h3 class="display-3 fw-bold mb-5"><span class="text-outline-dark">Traderow</span> - Clothings &
+            footwear specialists</h3>
+          <p class="lead">We are Traderow, a leading supplier of global brands
+          <p class="lead">With worldwide shipping and unbeatable prices - now's a great time to pick out
+            something from our range.</p>
+          <a href="/products" class="btn btn-psuedo" role="button">Shop New Arrivals</a>
+        </div>
+        <!-- <div class="col-12 col-md-6 position-relative z-index-20 pe-0" data-aos="fade-left">
+          <picture class="w-50 d-block position-relative z-index-10 border border-white border-4 shadow-lg">
+            <img class="img-fluid" src=""
+              alt="">
+          </picture>
+          <picture
+            class="w-60 d-block me-8 mt-n10 shadow-lg border border-white border-4 position-relative z-index-20 ms-auto">
+            <img class="img-fluid" src=""
+              alt="">
+          </picture>
+          <picture
+            class="w-50 d-block me-8 mt-n7 shadow-lg border border-white border-4 position-absolute top-0 end-0 z-index-0 ">
+            <img class="img-fluid" src=""
+              alt="">
+          </picture>
+        </div> -->
+      </div>
+      <!-- / Homepage Intro-->
+    </div>
+    <!-- Swiper Instagram -->
+    <div data-aos="fade-in">
+      <h3 class="title-small text-muted text-center mb-3 mt-5"><i class="ri-instagram-line align-bottom"></i>
+        #Traderow Arrivals
+      </h3>
+      <div class="overflow-hidden">
+        <div class="swiper-container swiper-overflow-visible" data-swiper data-options='{
+      "spaceBetween": 20,
+      "loop": true,
+      "autoplay": {
+        "delay": 5000,
+        "disableOnInteraction": false
+      },
+      "breakpoints": {
+        "400": {
+          "slidesPerView": 2
+        },
+        "600": {
+          "slidesPerView": 3
+        },       
+        "999": {
+          "slidesPerView": 5
+        },
+        "1024": {
+          "slidesPerView": 6
+        }
+      }
+    }'>
+          <div class="swiper-wrapper mb-5">
+            <!-- Start of instagram slideshow loop for items-->
+            <% products.forEach(data=>{ %>
+                <div class="swiper-slide flex-column">
+                  <picture>
+                    <img class="rounded shadow-sm img-fluid" data-zoomable
+                      src="/images/<%= data.images[0] %>"
+                      title="" alt="">
+                  </picture>
+                </div>
+             
+            <%}) %>
+            <!-- / end of items loop-->
 
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Swiper Instagram-->
+
+    <!-- Footer -->
+    <footer class="border-top py-5 mt-4  ">
+      <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center flex-column flex-lg-row">
+          <div>
+            <ul class="list-unstyled">
+              <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all" href="#"><i
+                    class="ri-instagram-fill"></i></a></li>
+              <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all" href="#"><i
+                    class="ri-facebook-fill"></i></a></li>
+              <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all" href="#"><i
+                    class="ri-twitter-fill"></i></a></li>
+              <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all" href="#"><i
+                    class="ri-snapchat-fill"></i></a></li>
+            </ul>
+          </div>
+          <div class="d-flex align-items-center justify-content-end flex-column flex-lg-row">
+            <p class="small m-0 text-center text-lg-start">&copy; 2023 Traderow All Rights Reserved. Design by
+              <a href="">Shiyas</a>
+            </p>
+            <ul class="list-unstyled mb-0 ms-lg-4 mt-3 mt-lg-0 d-flex justify-content-end align-items-center">
+              <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+                <i class="pi pi-sm pi-paypal"></i>
+              </li>
+              <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+                <i class="pi pi-sm pi-mastercard"></i>
+              </li>
+              <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+                <i class="pi pi-sm pi-american-express"></i>
+              </li>
+              <li class="bg-light p-2 d-flex align-items-center justify-content-center"><i class="pi pi-sm pi-visa"></i>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer> <!-- / Footer-->
 
   </section>
   <!-- / Main Section-->

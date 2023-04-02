@@ -122,7 +122,7 @@
 
 .animation-marquee-50 {
     -webkit-animation: marquee 50s linear infinite;
-    animation: marquee 50s linear infinite
+    animation: marquee 10s linear infinite
 }
 
 .animation-marquee-60 {

@@ -5,7 +5,7 @@
             <div class="col-lg-10 m-5">
                 <p class="text-danger text-center" id="error"></p>
                 <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data"
-                    onsubmit="validation(event)">
+                     id="banner-form">
                     <div class="col-md-6">
                         <label for="heading" class="form-label">Heading</label>
                         <input type="text" class="form-control" id="heading" name="heading" placeholder="">
@@ -45,7 +45,7 @@
                         <input class="form-control" type="file" id="image" name="image">
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit" onclick="uploadBanner(event)">Submit</button>
                     </div>
                 </form>
             </div>

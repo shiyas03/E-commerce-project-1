@@ -81,8 +81,5 @@ user_route.get('/delete-address',checkUser,userController.deleteAddress);
 user_route.get('/edit-address',checkUser,userController.editAddress);
 user_route.post('/edit-address',userController.updateAddress);
 
-user_route.get('/404',userController.errorOne);
-user_route.get('/500',userController.errorTwo)
-
  
 module.exports = user_route;
