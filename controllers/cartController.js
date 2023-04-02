@@ -2,7 +2,7 @@ const Cart = require('../models/cartModel')
 const Products = require('../models/productModel')
 const User = require('../models/userModel');
 const Coupon = require('../models/couponModel')
-const Wishlist = require('../models/wishlist')
+const Wishlist = require('../models/wishlistModel')
 const Wallet = require('../models/walletModel')
 
 //For view wishlisted products

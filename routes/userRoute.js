@@ -43,7 +43,6 @@ user_route.post('/verify-otp',checkLogout,userController.verifyOtp)
 user_route.get('/resend-otp',checkLogout,userController.resendOtp);
 
 user_route.get('/products',userController.loadProducts);
-user_route.post('/products',userController.loadProducts);
 user_route.get('/view-product',userController.viewProduct);   
 user_route.get('/men-products',userController.productsForMen);
 user_route.get('/women-products',userController.productsForWomen);

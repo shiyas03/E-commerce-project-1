@@ -106,7 +106,7 @@ const changeStatusProduct = async (req, res) => {
     try {
         const id = req.query.id;
         const status = req.query.status
-        await Products.findOne({ _id: id }).populate('category')
+        await Products.findOne({ _id: id })
             .then(async (data) => {
                 await Products.updateOne({ _id: id }, { status: status })
                 res.redirect('/admin/products-list')

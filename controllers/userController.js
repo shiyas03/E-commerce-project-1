@@ -4,6 +4,8 @@ const Products = require('../models/productModel');
 const Banner = require('../models/bannerModel')
 const Category = require('../models/categoryModel')
 const Wallet = require('../models/walletModel')
+const Wishlist = require('../models/wishlistModel')
+const mongoose = require('mongoose');
 
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
@@ -269,32 +271,55 @@ const loadProducts = async (req, res) => {
         const totalQuantity = await Products.find({ status: "Available" }).count()
         const number = Math.round((totalQuantity / 3) + 1);
         const value = req.query.value || 1;
-        const category = await Category.find();
+        const categories = await Category.find().sort({ name: 1 })
         const walletAmount = req.session.wallet || 0;
-        const productData = await Products.find({ status: "Available" }).populate('brand').limit(value * 3).skip((value * 3) - 3)
-        res.render('products', { productData, value, name: req.session.userName, number, category, walletAmount })
+        const { category, search, sort } = req.query;
+        const pipeline = [];
+        let products;
+        if (category) {
+            const categoryIds = category.split(',').map((id) => new mongoose.Types.ObjectId(id));
+            pipeline.push({
+                $match: {
+                    category: { $in: categoryIds },
+                    status: "Available"
+                },
+            });
+            products = await Products.aggregate(pipeline);
+            console.log(products)
+            res.json({ products: products })
+        } else if (search) {
+            pipeline.push({
+                $match: {
+                    productName: { $regex: search, $options: 'i' },
+                    status: "Available"
+                },
+            });
+            products = await Products.aggregate(pipeline);
+            res.json({ products: products })
+        } else if (sort) {
+            const [field, direction] = sort.split(':');
+            pipeline.push(
+                {
+                    $match: {
+                        status: "Available"
+                    }
+                },
+                {
+                    $sort: {
+                        [field]: direction === 'desc' ? -1 : 1,
+                    },
+
+                })
+            products = await Products.aggregate(pipeline);
+            res.json({ products: products })
+        } else {
+            products = await Products.find({ status: "Available" }).populate('brand').limit(value * 3).skip((value * 3) - 3)
+            res.render('products', { productData: products, value, name: req.session.userName, number, category: categories, walletAmount })
+        }
 
     } catch (error) {
         console.log(error.message);
         res.render('404')
-    }
-}
-
-const filterProducts = async (req, res) => {
-    try {
-        const totalQuantity = await Products.find({ status: "Available" }).count()
-        const number = Math.round((totalQuantity / 3) + 1);
-        const value = req.query.value || 1;
-        const category = await Category.find();
-        const walletAmount = req.session.wallet || 0;
-        const filter = req.body.filter
-        const productData = await Products.aggregate([
-            { $match: { status: "Available" } }
-        ])
-        res.render('products', { productData, value, name: req.session.userName, number, category, walletAmount })
-
-    } catch (error) {
-        console.log(error.message)
     }
 }
 
@@ -670,7 +695,6 @@ module.exports = {
     viewProduct,
     productsForMen,
     productsForWomen,
-    filterProducts,
 
     userProfile,
     editUserData,
