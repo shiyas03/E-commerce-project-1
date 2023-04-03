@@ -311,7 +311,7 @@ const loadProducts = async (req, res) => {
                     },
 
                 })
-            products = await Products.aggregate(pipeline);
+            products = await Products.aggregate(pipeline)
             res.json({ products: products })
         } else {
             products = await Products.find({ status: "Available" }).populate('brand').limit(value * 3).skip((value * 3) - 3)

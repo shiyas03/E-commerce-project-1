@@ -12,7 +12,7 @@
             </div> -->
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-12 col-lg-10 col-12">
+            <div class="col-md-12 col-lg-10 col-12 table-responsive">
                 <% if(!orderDatas.length || orderDatas=='' ){ %>
                     <h5>Order is Empty, Continue Shopping</h5>
                     <% }else{ %>
@@ -69,36 +69,36 @@
                                             <%= data.paymentMethod %>
                                         </td>
                                         <td>
-
                                             <%= data.paymentStatus %>
                                         </td>
                                         <td>
-                                            <% if(data.status=="Placed" ){ %>
+                                            <% if(data.status == "Cancelled" || data.status == "Delivered" ){ %>
                                                 <select class="form-select" aria-label="Default select example"
-                                                    id="<%= data._id %>" onchange="orderId(event,'<%= data._id %>')">
-                                                    <option>
-                                                        <%= data.status%>
-                                                    </option>
-                                                    <option value="Shipped">Shipped</option>
-                                                    <option value="Delivered">Delivered</option>
-                                                </select>
-                                                <% if(data.status=="Returning" ){ %>
-                                                    <a href="/return-confirm?id=<%= data._id %>"
-                                                        class="btn btn-danger">Confirm Return</a>
-                                                    <% }%>
-                                                        <%}else{ %>
-                                                            <select class="form-select"
-                                                                aria-label="Default select example" id="<%= data._id %>"
-                                                                onchange="orderId(event,'<%= data._id %>')">
-                                                                <option selected>
-                                                                    <%= data.status%>
-                                                                </option>
-                                                            </select>
-                                                            <% if(data.status=="Returning" ){ %>
-                                                                <a href="/return-confirm?id=<%= data._id %>"
-                                                                    class="btn btn-danger">Confirm Return</a>
-                                                                <% }%>
-                                                                    <% } %>
+                                                id="<%= data._id %>" onchange="orderId(event,'<%= data._id %>')">
+                                                <option>
+                                                    <%= data.status%>
+                                                </option>
+                                            </select>
+                                            <% }else{ %>
+                                                <select class="form-select" aria-label="Default select example"
+                                                id="<%= data._id %>" onchange="orderId(event,'<%= data._id %>')">
+                                                <option>
+                                                    <%= data.status%>
+                                                </option>
+                                                <option value="Shipped">Shipped</option>
+                                                <option value="Delivered">Delivered</option>
+                                            <% } %>
+                                            
+                                            <% if(data.status=="Returning" ){ %>
+                                                <a href="/return-confirm?id=<%= data._id %>"
+                                                    class="btn btn-danger">Confirm Return</a>
+                                                <% }%>
+
+                                                    <% if(data.status=="Returning" ){ %>
+                                                        <a href="/return-confirm?id=<%= data._id %>"
+                                                            class="btn btn-danger">Confirm Return</a>
+                                                        <% }%>
+
 
                                         </td>
                                     </tr>

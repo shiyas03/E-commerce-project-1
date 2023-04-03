@@ -21,7 +21,7 @@
                                         <td class="col-2 text-center">
                                             <img src="/images/<%= data.productId.images[0] %>" width="80px" alt="" class="">
                                         </td>
-                                        <td class="col-5">
+                                        <td class="">
                                             <small class="">
                                                 <%= data.productId.productName %> <br>
                                                     Quantity : <%= data.orderedQuantity %> <br>
@@ -56,6 +56,7 @@
                                                 <a href="" class="btn btn-danger disabled">Cancel</a>
                                                 <% }else if(data.status == 'Delivered'){%>
                                                     <a href="/return-order?id=<%= data._id %>" class="btn btn-warning" onclick="returnCancel(event,'<%= data._id %>')" id="<%= data._id %>">Return</a>
+                                                    
                                                 <%}else{ %>
                                                     <a href="/cancel-order?id=<%= data._id %>" class="btn btn-danger" onclick="cancelOrder(event,'<%= data._id %>')" id="<%= data._id %>">Cancel</a>
                                                 <% } %>

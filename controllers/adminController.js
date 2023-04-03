@@ -3,6 +3,7 @@ const Admin = require('../models/adminModel');
 const User = require('../models/userModel')
 const Orders = require('../models/orderModel')
 const Coupon = require('../models/couponModel')
+const Products = require('../models/productModel')
 
 const pdf = require('html-pdf')
 const path = require('path')
@@ -68,9 +69,11 @@ const loadDashboard = async (req, res) => {
         const returned = ordersData.flatMap(order => order.orderDetails.filter(detail => detail.status == 'Returned'));
         const sales = ordersData.flatMap(order => order.orderDetails.filter(detail => detail.status == 'Delivered')).map(detail => detail.totalSalePrice)
         const pending = ordersData.flatMap(order => order.orderDetails.filter(detail => detail.status !== 'Delivered' && detail.status !== "Returned")).map(detail => detail.totalSalePrice)
+        const products = await Products.find({status : "Available"}).count() 
+        const product = await Products.find({status : "Not Available"}).count() 
         const total = sales.reduce((acc, cur) => { return acc += cur })
         const upcoming = pending.reduce((acc, cur) => { return acc += cur })
-        res.render('dashboard', { users, orders: mergedProductIds.length, blocked: blockedUser.length, returned: returned.length, total, upcoming })
+        res.render('dashboard', { users, orders: mergedProductIds.length, blocked: blockedUser.length, returned: returned.length, total, upcoming, products, product })
     } catch (error) {
         console.log(error.message);
     }
