@@ -13,8 +13,8 @@ const randomString = require('randomstring');
 const nodemailer = require('nodemailer');
 
 //Twilio
-const accountSid = "AC72b12705b981bf156366837719003c30";
-const authToken = "0d37ab20326cd001562d7cfa23fc561c";
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const verifySid = process.env.TWILIO_VERIFY_SID;
 const client = require("twilio")(accountSid, authToken);
 
@@ -190,7 +190,7 @@ const getOtp = async (req, res) => {
         if (userData) {
             //generating otp
             client.verify.v2
-                .services("VAb96ba66e52cca7521a93269955c19b75")
+                .services(process.env.TWILIO_VERIFY_SID)
                 .verifications.create({ to: '+91' + number, channel: "sms" })
                 .then((verification) => {
                     console.log(verification.status);
@@ -211,7 +211,7 @@ const resendOtp = async (req, res) => {
         if (req.session.mobileNumber) {
             //generating otp for resend
             client.verify.v2
-                .services("VAb96ba66e52cca7521a93269955c19b75")
+                .services(process.env.TWILIO_VERIFY_SID)
                 .verifications.create({ to: "+91" + req.session.mobileNumber, channel: "sms" })
                 .then((verification) => {
                     console.log(verification.status)
@@ -243,7 +243,7 @@ const verifyOtp = async (req, res) => {
         const otp = req.body.otp;
         const number = req.session.mobileNumber;
         client.verify.v2
-            .services("VAb96ba66e52cca7521a93269955c19b75")
+            .services(process.env.TWILIO_VERIFY_SID)
             .verificationChecks.create({ to: "+91" + number, code: otp })
             .then(async (verification) => {
                 if (verification.status == "approved") {
@@ -585,7 +585,7 @@ const resetPasswordConfirm = async (req, res) => {
         if (userData) {
             //generating otp
             client.verify.v2
-                .services("VAb96ba66e52cca7521a93269955c19b75")
+                .services(process.env.TWILIO_VERIFY_SID)
                 .verifications.create({ to: '+91' + number, channel: "sms" })
                 .then((verification) => {
                     console.log(verification.status);
@@ -616,7 +616,7 @@ const verifyResetOtp = async (req, res) => {
         const otp = req.body.otp;
         const number = req.session.mobileNumber;
         client.verify.v2
-            .services("VAb96ba66e52cca7521a93269955c19b75")
+            .services(process.env.TWILIO_VERIFY_SID)
             .verificationChecks.create({ to: "+91" + number, code: otp })
             .then(async (verification) => {
                 if (verification.status == "approved") {
